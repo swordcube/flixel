@@ -244,6 +244,17 @@ class FlxSprite extends FlxObject
 	public var offset(default, null):FlxPoint;
 
 	/**
+	 * The position of the sprite's graphic relative to the frame, scaling and angles. For example, `offset.x = 10;` with
+	 * a scale of 2 will move the sprite 20 pixels to the left.
+	 */
+	public var frameOffset(default, null):FlxPoint;
+
+	/**
+	 * (Nullable) Custom angle to be applied to `frameOffset`
+	 */
+	public var frameOffsetAngle:Null<Float> = null;
+
+	/**
 	 * Change the size of your sprite's graphic.
 	 * NOTE: The hitbox is not automatically adjusted, use `updateHitbox()` for that (or `setGraphicSize()`).
 	 * WARNING: With `FlxG.renderBlit`, scaling sprites decreases rendering performance by a factor of about x10!
@@ -346,6 +357,12 @@ class FlxSprite extends FlxObject
 	 */
 	@:noCompletion
 	var _scaledOrigin:FlxPoint;
+	
+	/**
+	 *  Helper variable
+	 */
+	@:noCompletion
+	var _scaledFrameOffset:FlxPoint;
 
 	/**
 	 * These vars are being used for rendering in some of `FlxSprite` subclasses (`FlxTileblock`, `FlxBar`,
@@ -395,12 +412,14 @@ class FlxSprite extends FlxObject
 		_flashRect2 = new Rectangle();
 		_flashPointZero = new Point();
 		offset = FlxPoint.get();
+		frameOffset = FlxPoint.get();
 		origin = FlxPoint.get();
 		scale = FlxPoint.get(1, 1);
 		_halfSize = FlxPoint.get();
 		_matrix = new FlxMatrix();
 		colorTransform = new ColorTransform();
 		_scaledOrigin = new FlxPoint();
+		_scaledFrameOffset = new FlxPoint();
 	}
 
 	/**
@@ -420,10 +439,12 @@ class FlxSprite extends FlxObject
 		animation = FlxDestroyUtil.destroy(animation);
 
 		offset = FlxDestroyUtil.put(offset);
+		frameOffset = FlxDestroyUtil.put(frameOffset);
 		origin = FlxDestroyUtil.put(origin);
 		scale = FlxDestroyUtil.put(scale);
 		_halfSize = FlxDestroyUtil.put(_halfSize);
 		_scaledOrigin = FlxDestroyUtil.put(_scaledOrigin);
+		_scaledFrameOffset = FlxDestroyUtil.put(_scaledFrameOffset);
 
 		framePixels = FlxDestroyUtil.dispose(framePixels);
 
@@ -821,8 +842,19 @@ class FlxSprite extends FlxObject
 	@:noCompletion
 	function drawComplex(camera:FlxCamera):Void
 	{
-		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
+		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX() != camera.flipX, checkFlipY() != camera.flipY);
 		_matrix.translate(-origin.x, -origin.y);
+
+		if (frameOffsetAngle != null && frameOffsetAngle != angle)
+		{
+			var angleOff = (-angle + frameOffsetAngle) * FlxAngle.TO_RAD;
+			_matrix.rotate(-angleOff);
+			_matrix.translate(-frameOffset.x, -frameOffset.y);
+			_matrix.rotate(angleOff);
+		}
+		else
+			_matrix.translate(-frameOffset.x, -frameOffset.y);
+
 		_matrix.scale(scale.x, scale.y);
 
 		if (bakedRotationAngle <= 0)
@@ -843,8 +875,15 @@ class FlxSprite extends FlxObject
 			_matrix.ty = Math.floor(_matrix.ty);
 		}
 
+		doAdditionalMatrixStuff(_matrix, camera);
+
 		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader);
 	}
+
+	/**
+	 * Made in case developer wanna finalize stuff with the matrix.
+	 */
+	 public function doAdditionalMatrixStuff(matrix:FlxMatrix, camera:FlxCamera) {}
 
 	/**
 	 * Stamps / draws another `FlxSprite` onto this `FlxSprite`.
@@ -1291,12 +1330,13 @@ class FlxSprite extends FlxObject
 		if (pixelPerfectPosition)
 			newRect.floor();
 		_scaledOrigin.set(origin.x * scale.x, origin.y * scale.y);
+		_scaledFrameOffset.set(frameOffset.x * scale.x, frameOffset.y * scale.y);
 		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x - _scaledOrigin.x;
 		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y - _scaledOrigin.y;
 		if (isPixelPerfectRender(camera))
 			newRect.floor();
 		newRect.setSize(frameWidth * Math.abs(scale.x), frameHeight * Math.abs(scale.y));
-		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect);
+		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect, _scaledFrameOffset);
 	}
 	
 	/**

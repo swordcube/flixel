@@ -1,5 +1,6 @@
 package flixel;
 
+import openfl.filters.ShaderFilter;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
@@ -16,6 +17,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxMatrix;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
+import flixel.math.FlxAngle;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
@@ -131,7 +133,12 @@ class FlxCamera extends FlxBasic
 	 * Values are bounded between `0.0` and `FlxG.updateFrameRate / 60` for consistency across framerates.
 	 * The maximum value means no camera easing. A value of `0` means the camera does not move.
 	 */
-	public var followLerp(default, set):Float = 60 / FlxG.updateFramerate;
+	public var followLerp(default, set):Float = 1;
+
+	/**
+	 * Whenever target following is enabled. Defaults to `true`.
+	 */
+	public var followEnabled:Bool = true;
 
 	/**
 	 * You can assign a "dead zone" to the camera in order to better control its movement.
@@ -203,6 +210,15 @@ class FlxCamera extends FlxBasic
 	 * @see http://haxeflixel.com/demos/FlxBloom/
 	 */
 	public var useBgAlphaBlending:Bool = false;
+
+	/**
+	 * Whenever sprites rendered to this camera should be flipped horizontally
+	 */
+	public var flipX:Bool = false;
+	/**
+	 * Whenever sprites rendered to this camera should be flipped vertically
+	 */
+	public var flipY:Bool = false;
 
 	/**
 	 * Used to render buffer to screen space.
@@ -358,6 +374,11 @@ class FlxCamera extends FlxBasic
 	 * The angle of the camera display (in degrees).
 	 */
 	public var angle(default, set):Float = 0;
+
+	/**
+	 * Whenever the sprite should be rotated.
+	 */
+	public var rotateSprite(default, set):Bool = false;
 
 	/**
 	 * The color tint of the camera display.
@@ -592,6 +613,44 @@ class FlxCamera extends FlxBasic
 
 	static var renderRect:FlxRect = FlxRect.get();
 
+	/**
+	 * Adds a FlxShader as a filter to the camera
+	 * @param shader Shader to add
+	 * @return ShaderFilter
+	 */
+	public function addShader(shader:FlxShader)
+	{
+		var filter:ShaderFilter = null;
+		if (_filters == null)
+			_filters = [];
+		_filters.push(filter = new ShaderFilter(shader));
+		return filter;
+	}
+
+	/**
+	 * Removes a FlxShader's ShaderFilter from the camera.
+	 * @param shader Shader to remove
+	 * @return Whenever the shader has been successfully removed or not.
+	 */
+	public function removeShader(shader:FlxShader):Bool
+	{
+		if (_filters == null)
+			_filters = [];
+		for (f in _filters)
+		{
+			if (f is ShaderFilter)
+			{
+				var sf = cast(f, ShaderFilter);
+				if (sf.shader == shader)
+				{
+					_filters.remove(f);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@:noCompletion
 	public function startQuadBatch(graphic:FlxGraphic, colored:Bool, hasColorOffsets:Bool = false, ?blend:BlendMode, smooth:Bool = false, ?shader:FlxShader)
 	{
@@ -785,6 +844,11 @@ class FlxCamera extends FlxBasic
 		}
 		else
 		{
+			if (!rotateSprite) {
+				matrix.translate(-width / 2, -height / 2);
+				matrix.rotate(angle * FlxAngle.TO_RAD);
+				matrix.translate(width / 2, height / 2);
+			}
 			var isColored = (transform != null && transform.hasRGBMultipliers());
 			var hasColorOffsets:Bool = (transform != null && transform.hasRGBAOffsets());
 
@@ -1135,7 +1199,7 @@ class FlxCamera extends FlxBasic
 	override public function update(elapsed:Float):Void
 	{
 		// follow the target, if there is one
-		if (target != null)
+		if (target != null && followEnabled)
 		{
 			updateFollow();
 		}
@@ -1244,14 +1308,14 @@ class FlxCamera extends FlxBasic
 				_lastTargetPosition.y = target.y;
 			}
 
-			if (followLerp >= 60 / FlxG.updateFramerate)
+			if (followLerp == Math.POSITIVE_INFINITY)
 			{
 				scroll.copyFrom(_scrollTarget); // no easing
 			}
 			else
 			{
-				scroll.x += (_scrollTarget.x - scroll.x) * followLerp * FlxG.updateFramerate / 60;
-				scroll.y += (_scrollTarget.y - scroll.y) * followLerp * FlxG.updateFramerate / 60;
+				scroll.x = FlxMath.lerp(scroll.x, _scrollTarget.x, followLerp * FlxG.elapsed * 60);
+				scroll.y = FlxMath.lerp(scroll.y, _scrollTarget.y, followLerp * FlxG.elapsed * 60);
 			}
 		}
 	}
@@ -1941,6 +2005,12 @@ class FlxCamera extends FlxBasic
 			canvas.alpha = Alpha;
 		}
 		return Alpha;
+	}
+
+	function set_rotateSprite(rotate:Bool) {
+		rotateSprite = rotate;
+		set_angle(angle);
+		return rotateSprite;
 	}
 
 	function set_angle(Angle:Float):Float

@@ -1,10 +1,12 @@
 package flixel;
 
+#if !macro
 import flash.Lib;
 import flash.display.DisplayObject;
 import flash.display.Stage;
 import flash.display.StageDisplayState;
 import flash.net.URLRequest;
+#end
 import flixel.effects.postprocess.PostProcess;
 import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
@@ -310,6 +312,11 @@ class FlxG
 	 * Contains a list of all plugins and the functions required to `add()`, `remove()` them etc.
 	 */
 	public static var plugins(default, null):PluginFrontEnd;
+
+	/**
+	 * Whenever rendering with antialiasing should be enabled. If `false`, no sprite will render with antialiasing.
+	 */
+	public static var enableAntialiasing:Bool = true;
 
 	public static var initialWidth(default, null):Int = 0;
 	public static var initialHeight(default, null):Int = 0;

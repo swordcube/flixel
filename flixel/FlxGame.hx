@@ -648,6 +648,7 @@ class FlxGame extends Sprite
 		debugger.console.registerObject("state", _state);
 		#end
 
+		_state.createPost();
 		FlxG.signals.postStateSwitch.dispatch();
 	}
 

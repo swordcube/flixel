@@ -181,7 +181,7 @@ class FlxAssets
 	}
 
 	#if !doc_gen
-	private static function exprToRegex(expr:Expr):EReg
+	static function exprToRegex(expr:Expr):EReg
 	{
 		switch (expr.expr)
 		{

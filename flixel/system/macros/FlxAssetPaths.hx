@@ -86,7 +86,7 @@ class FlxAssetPaths
 		fileReferences.push(file);
 	}
 }
-private class FileReference
+class FileReference
 {
 	static var valid = ~/^[_A-Za-z]\w*$/;
 

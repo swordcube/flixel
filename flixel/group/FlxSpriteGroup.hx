@@ -280,7 +280,7 @@ class FlxTypedSpriteGroup<T:FlxSprite> extends FlxSprite
 
 	/**
 	 * Adjusts the position and other properties of the soon-to-be child of this sprite group.
-	 * Private helper to avoid duplicate code in `add()` and `insert()`.
+	 * helper to avoid duplicate code in `add()` and `insert()`.
 	 *
 	 * @param	Sprite	The sprite or sprite group that is about to be added or inserted into the group.
 	 */

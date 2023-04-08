@@ -372,7 +372,7 @@ class FlxSave implements IFlxDestroyable
  * referencing is a really cool idea so let's allow it!
  */
 @:access(openfl.net.SharedObject)
-private class FlxSharedObject extends SharedObject
+class FlxSharedObject extends SharedObject
 {
 	#if (flash || android || ios)
 	/** Use SharedObject as usual */

@@ -535,7 +535,7 @@ abstract FlxColor(Int) from Int from UInt to Int to UInt
 	}
 
 	/**
-	 * Private utility function to perform common operations between setHSB and setHSL
+	 * utility function to perform common operations between setHSB and setHSL
 	 */
 	inline function setHueChromaMatch(Hue:Float, Chroma:Float, Match:Float, Alpha:Float):FlxColor
 	{

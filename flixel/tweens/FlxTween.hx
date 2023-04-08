@@ -1485,7 +1485,7 @@ class FlxTweenManager extends FlxBasic
 	}
 }
 
-private typedef TweenProperty =
+typedef TweenProperty =
 {
 	object:Dynamic,
 	field:String

@@ -21,6 +21,8 @@ import openfl.display.Tilesheet;
  */
 class FlxGraphic implements IFlxDestroyable
 {
+	@:allow(flixel.system.frontEnds.BitmapFrontEnd)
+	private var mustDestroy:Bool = false;
 	/**
 	 * The default value for the `persist` variable at creation if none is specified in the constructor.
 	 * @see [FlxGraphic.persist](https://api.haxeflixel.com/flixel/graphics/FlxGraphic.html#persist)
@@ -602,7 +604,7 @@ class FlxGraphic implements IFlxDestroyable
 
 	function set_useCount(Value:Int):Int
 	{
-		if (Value <= 0 && _destroyOnNoUse && !persist)
+		if (!FlxG.bitmap.__doNotDelete && Value <= 0 && _destroyOnNoUse && !persist)
 			FlxG.bitmap.remove(this);
 
 		return _useCount = Value;
@@ -615,7 +617,7 @@ class FlxGraphic implements IFlxDestroyable
 
 	function set_destroyOnNoUse(Value:Bool):Bool
 	{
-		if (Value && _useCount <= 0 && key != null && !persist)
+		if (Value && !FlxG.bitmap.__doNotDelete && _useCount <= 0 && key != null && !persist)
 			FlxG.bitmap.remove(this);
 
 		return _destroyOnNoUse = Value;

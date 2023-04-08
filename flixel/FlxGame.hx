@@ -624,12 +624,13 @@ class FlxGame extends Sprite
 		FlxRandom.updateStateSeed();
 		#end
 
+		// we mark the entire cache as destroyable. while the cache is marked as destroyable, nothing is immediately removed, to make loading times faster
+		FlxG.bitmap.mapCacheAsDestroyable();
+
 		// Destroy the old state (if there is an old state)
 		if (_state != null)
 			_state.destroy();
 
-		// we need to clear bitmap cache only after previous state is destroyed, which will reset useCount for FlxGraphic objects
-		FlxG.bitmap.clearCache();
 
 		// Finally assign and create the new state
 		_state = _requestedState;
@@ -647,6 +648,9 @@ class FlxGame extends Sprite
 		#if FLX_DEBUG
 		debugger.console.registerObject("state", _state);
 		#end
+
+		// we remove the destroyable attribute from the cache, and remove all bitmaps that are unused.
+		FlxG.bitmap.clearCache();
 
 		_state.createPost();
 		FlxG.signals.postStateSwitch.dispatch();

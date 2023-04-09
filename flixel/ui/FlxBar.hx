@@ -55,6 +55,11 @@ class FlxBar extends FlxSprite
 	public var percent(get, set):Float;
 
 	/**
+	 * The percentage of how full the bar is (a value between 0 and 100)
+	 */
+	public var floorPercent(get, null):Int;
+
+	/**
 	 * The current value - must always be between min and max
 	 */
 	@:isVar
@@ -200,21 +205,21 @@ class FlxBar extends FlxSprite
 
 		if (FlxG.renderBlit)
 		{
-			_frontFrame = null;
-			_filledFlxRect = FlxDestroyUtil.put(_filledFlxRect);
-		}
-		else
-		{
 			_emptyBarRect = null;
 			_zeroOffset = null;
 			_emptyBar = FlxDestroyUtil.dispose(_emptyBar);
 			_filledBar = FlxDestroyUtil.dispose(_filledBar);
 		}
+		else
+		{
+			_frontFrame = null;
+			_filledFlxRect = FlxDestroyUtil.put(_filledFlxRect);
+		}
 		_filledBarRect = null;
 		_filledBarPoint = null;
 
 		parent = null;
-		positionOffset = null;
+		positionOffset = FlxDestroyUtil.put(positionOffset);
 		emptyCallback = null;
 		filledCallback = null;
 
@@ -805,8 +810,8 @@ class FlxBar extends FlxSprite
 			{
 				if (frontFrames != null)
 				{
-					_filledFlxRect.copyFromFlash(_filledBarRect).round();
-					if (Std.int(percent) > 0)
+					_filledFlxRect.copyFromFlash(_filledBarRect); // .round();
+					if (percent > 0)
 					{
 						_frontFrame = frontFrames.frame.clipTo(_filledFlxRect, _frontFrame);
 					}
@@ -907,6 +912,16 @@ class FlxBar extends FlxSprite
 	}
 
 	function get_percent():Float
+	{
+		if (value > max)
+		{
+			return _maxPercent;
+		}
+
+		return ((value - min) / range) * _maxPercent;
+	}
+
+	function get_floorPercent():Int
 	{
 		if (value > max)
 		{

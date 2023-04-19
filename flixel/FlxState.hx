@@ -89,14 +89,15 @@ class FlxState extends FlxGroup
 
 	@:noCompletion
 	var _subStateClosed:FlxTypedSignal<FlxSubState->Void>;
-    
+
 	/**
 	 * This function is called after the game engine successfully switches states.
 	 * Override this function, NOT the constructor, to initialize or set up your game state.
 	 * We do NOT recommend initializing any flixel objects or utilizing flixel features in
 	 * the constructor, unless you want some crazy unpredictable things to happen!
 	 */
-	public function create():Void {
+	public function create():Void
+	{
 		created = true;
 	}
 
@@ -176,7 +177,7 @@ class FlxState extends FlxGroup
 	{
 		FlxDestroyUtil.destroy(_subStateOpened);
 		FlxDestroyUtil.destroy(_subStateClosed);
-        
+
 		if (subState != null)
 		{
 			subState.destroy();
@@ -244,7 +245,7 @@ class FlxState extends FlxGroup
 	{
 		return FlxG.cameras.bgColor = Value;
 	}
-    
+
 	@:noCompletion
 	function get_subStateOpened():FlxTypedSignal<FlxSubState->Void>
 	{

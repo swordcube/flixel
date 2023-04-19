@@ -195,7 +195,7 @@ class FlxAnimationController implements IFlxDestroyable
 			FlxG.log.warn('Could not create animation: "$name", this sprite has no frames');
 			return;
 		}
-		
+
 		// Check _animations frames
 		var framesToAdd:Array<Int> = frames;
 		var hasInvalidFrames = false;
@@ -207,7 +207,7 @@ class FlxAnimationController implements IFlxDestroyable
 			{
 				// log if frames are excluded
 				hasInvalidFrames = true;
-				
+
 				// Splicing original Frames array could lead to unexpected results
 				// So we are cloning it (only once) and will use its copy
 				if (framesToAdd == frames)
@@ -216,12 +216,12 @@ class FlxAnimationController implements IFlxDestroyable
 				framesToAdd.splice(i, 1);
 			}
 		}
-		
+
 		if (framesToAdd.length > 0)
 		{
 			var anim = new FlxAnimation(this, name, framesToAdd, frameRate, looped, flipX, flipY);
 			_animations.set(name, anim);
-			
+
 			if (hasInvalidFrames)
 				FlxG.log.warn('Could not add frames above ${numFrames - 1} to animation: "$name"');
 		}
@@ -261,7 +261,7 @@ class FlxAnimationController implements IFlxDestroyable
 			FlxG.log.warn("No animation called \"" + Name + "\"");
 			return;
 		}
-		
+
 		var hasInvalidFrames = false;
 
 		// Check _animations frames
@@ -272,7 +272,7 @@ class FlxAnimationController implements IFlxDestroyable
 			else
 				hasInvalidFrames = true;
 		}
-		
+
 		if (hasInvalidFrames)
 			FlxG.log.warn('Could not append frames above ${numFrames - 1} to animation: "$Name"');
 	}
@@ -287,18 +287,18 @@ class FlxAnimationController implements IFlxDestroyable
 	 * @param   FlipX        Whether the frames should be flipped horizontally.
 	 * @param   FlipY        Whether the frames should be flipped vertically.
 	 */
-	public function addByNames(Name:String, FrameNames:Array<String>, FrameRate:Int = 30, Looped:Bool = true, FlipX:Bool = false, FlipY:Bool = false):Void
+	public function addByNames(Name:String, FrameNames:Array<String>, FrameRate = 30.0, Looped:Bool = true, FlipX:Bool = false, FlipY:Bool = false):Void
 	{
-		if (_sprite.frames != null)
-		{
-			var indices:Array<Int> = new Array<Int>();
-			byNamesHelper(indices, FrameNames); // finds frames and appends them to the blank array
+		if (_sprite.frames == null)
+			return;
 
-			if (indices.length > 0)
-			{
-				var anim = new FlxAnimation(this, Name, indices, FrameRate, Looped, FlipX, FlipY);
-				_animations.set(Name, anim);
-			}
+		var indices:Array<Int> = new Array<Int>();
+		byNamesHelper(indices, FrameNames); // finds frames and appends them to the blank array
+
+		if (indices.length > 0)
+		{
+			var anim = new FlxAnimation(this, Name, indices, FrameRate, Looped, FlipX, FlipY);
+			_animations.set(Name, anim);
 		}
 	}
 
@@ -338,20 +338,20 @@ class FlxAnimationController implements IFlxDestroyable
 	 * @param   FlipX       Whether the frames should be flipped horizontally.
 	 * @param   FlipY       Whether the frames should be flipped vertically.
 	 */
-	public function addByStringIndices(Name:String, Prefix:String, Indices:Array<String>, Postfix:String, FrameRate:Int = 30, Looped:Bool = true,
+	public function addByStringIndices(Name:String, Prefix:String, Indices:Array<String>, Postfix:String, FrameRate = 30.0, Looped:Bool = true,
 			FlipX:Bool = false, FlipY:Bool = false):Void
 	{
-		if (_sprite.frames != null)
-		{
-			var frameIndices:Array<Int> = new Array<Int>();
-			// finds frames and appends them to the blank array
-			byStringIndicesHelper(frameIndices, Prefix, Indices, Postfix);
+		if (_sprite.frames == null)
+			return;
 
-			if (frameIndices.length > 0)
-			{
-				var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
-				_animations.set(Name, anim);
-			}
+		var frameIndices:Array<Int> = new Array<Int>();
+		// finds frames and appends them to the blank array
+		byStringIndicesHelper(frameIndices, Prefix, Indices, Postfix);
+
+		if (frameIndices.length > 0)
+		{
+			var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
+			_animations.set(Name, anim);
 		}
 	}
 
@@ -394,20 +394,20 @@ class FlxAnimationController implements IFlxDestroyable
 	 * @param   FlipX       Whether the frames should be flipped horizontally.
 	 * @param   FlipY       Whether the frames should be flipped vertically.
 	 */
-	public function addByIndices(Name:String, Prefix:String, Indices:Array<Int>, Postfix:String, FrameRate:Int = 30, Looped:Bool = true, FlipX:Bool = false,
+	public function addByIndices(Name:String, Prefix:String, Indices:Array<Int>, Postfix:String, FrameRate = 30.0, Looped:Bool = true, FlipX:Bool = false,
 			FlipY:Bool = false):Void
 	{
-		if (_sprite.frames != null)
-		{
-			var frameIndices:Array<Int> = new Array<Int>();
-			// finds frames and appends them to the blank array
-			byIndicesHelper(frameIndices, Prefix, Indices, Postfix);
+		if (_sprite.frames == null)
+			return;
 
-			if (frameIndices.length > 0)
-			{
-				var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
-				_animations.set(Name, anim);
-			}
+		var frameIndices:Array<Int> = new Array<Int>();
+		// finds frames and appends them to the blank array
+		byIndicesHelper(frameIndices, Prefix, Indices, Postfix);
+
+		if (frameIndices.length > 0)
+		{
+			var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
+			_animations.set(Name, anim);
 		}
 	}
 
@@ -474,23 +474,23 @@ class FlxAnimationController implements IFlxDestroyable
 	 * @param   flipX       Whether the frames should be flipped horizontally.
 	 * @param   flipY       Whether the frames should be flipped vertically.
 	 */
-	public function addByPrefix(name:String, prefix:String, frameRate = 30, looped = true, flipX = false, flipY = false):Void
+	public function addByPrefix(name:String, prefix:String, frameRate = 30.0, looped = true, flipX = false, flipY = false):Void
 	{
-		if (_sprite.frames != null)
+		if (_sprite.frames == null)
+			return;
+
+		var animFrames:Array<FlxFrame> = new Array<FlxFrame>();
+		findByPrefix(animFrames, prefix); // adds valid frames to animFrames
+
+		if (animFrames.length > 0)
 		{
-			var animFrames:Array<FlxFrame> = new Array<FlxFrame>();
-			findByPrefix(animFrames, prefix); // adds valid frames to animFrames
+			var frameIndices:Array<Int> = new Array<Int>();
+			byPrefixHelper(frameIndices, animFrames, prefix); // finds frames and appends them to the blank array
 
-			if (animFrames.length > 0)
+			if (frameIndices.length > 0)
 			{
-				var frameIndices:Array<Int> = new Array<Int>();
-				byPrefixHelper(frameIndices, animFrames, prefix); // finds frames and appends them to the blank array
-
-				if (frameIndices.length > 0)
-				{
-					var anim:FlxAnimation = new FlxAnimation(this, name, frameIndices, frameRate, looped, flipX, flipY);
-					_animations.set(name, anim);
-				}
+				var anim:FlxAnimation = new FlxAnimation(this, name, frameIndices, frameRate, looped, flipX, flipY);
+				_animations.set(name, anim);
 			}
 		}
 	}
@@ -514,16 +514,16 @@ class FlxAnimationController implements IFlxDestroyable
 			return;
 		}
 
-		if (_sprite.frames != null)
-		{
-			var animFrames:Array<FlxFrame> = new Array<FlxFrame>();
-			findByPrefix(animFrames, prefix); // adds valid frames to animFrames
+		if (_sprite.frames == null)
+			return;
 
-			if (animFrames.length > 0)
-			{
-				// finds frames and appends them to the existing array
-				byPrefixHelper(anim.frames, animFrames, prefix);
-			}
+		var animFrames:Array<FlxFrame> = new Array<FlxFrame>();
+		findByPrefix(animFrames, prefix); // adds valid frames to animFrames
+
+		if (animFrames.length > 0)
+		{
+			// finds frames and appends them to the existing array
+			byPrefixHelper(anim.frames, animFrames, prefix);
 		}
 	}
 

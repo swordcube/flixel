@@ -657,7 +657,7 @@ class FlxCamera extends FlxBasic
 		return false;
 	}
 
-	public function alterScreenPosition(spr:FlxSprite, pos:FlxPoint):FlxPoint {
+	public function alterScreenPosition(spr:FlxObject, pos:FlxPoint):FlxPoint {
 		return pos;
 	}
 

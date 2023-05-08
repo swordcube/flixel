@@ -657,6 +657,10 @@ class FlxCamera extends FlxBasic
 		return false;
 	}
 
+	public function alterScreenPosition(spr:FlxObject, pos:FlxPoint):FlxPoint {
+		return pos;
+	}
+
 	@:noCompletion
 	public function startQuadBatch(graphic:FlxGraphic, colored:Bool, hasColorOffsets:Bool = false, ?blend:BlendMode, smooth:Bool = false, ?shader:FlxShader)
 	{

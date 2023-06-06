@@ -8,6 +8,11 @@ import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 class FlxAnimationController implements IFlxDestroyable
 {
 	/**
+	 * A map that stores animation names that link to animation prefixes.
+	 */
+	public var animationNameMap:Map<String, String> = new Map();
+	
+	/**
 	 * Property access for currently playing animation (warning: can be `null`).
 	 */
 	public var curAnim(get, set):FlxAnimation;
@@ -351,6 +356,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (frameIndices.length > 0)
 		{
 			var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
+			animationNameMap.set(Name, Prefix);
 			_animations.set(Name, anim);
 		}
 	}
@@ -407,6 +413,7 @@ class FlxAnimationController implements IFlxDestroyable
 		if (frameIndices.length > 0)
 		{
 			var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
+			animationNameMap.set(Name, Prefix);
 			_animations.set(Name, anim);
 		}
 	}
@@ -490,6 +497,7 @@ class FlxAnimationController implements IFlxDestroyable
 			if (frameIndices.length > 0)
 			{
 				var anim:FlxAnimation = new FlxAnimation(this, name, frameIndices, frameRate, looped, flipX, flipY);
+				animationNameMap.set(name, prefix);
 				_animations.set(name, anim);
 			}
 		}

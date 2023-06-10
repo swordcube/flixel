@@ -93,6 +93,11 @@ class FlxBar extends FlxSprite
 	public var numDivisions(default, set):Int = 100;
 
 	/**
+	 * Determines whenever numDivisions will make stuff blocky
+	 */
+	public var unbounded:Bool = false;
+
+	/**
 	 * This function will be called when value will hit it's minimum
 	 */
 	public var emptyCallback:Void->Void;
@@ -759,15 +764,17 @@ class FlxBar extends FlxSprite
 		var percent:Float = fraction * _maxPercent;
 		var maxScale:Float = (_fillHorizontal) ? barWidth : barHeight;
 		var scaleInterval:Float = maxScale / numDivisions;
-		var interval:Float = Math.round(Std.int(fraction * maxScale / scaleInterval) * scaleInterval);
+		var interval:Float = unbounded ? fraction * maxScale : Math.round(Std.int(fraction * maxScale / scaleInterval) * scaleInterval);
+
+		var floor = unbounded ?(val:Float) -> val : Std.int;
 
 		if (_fillHorizontal)
 		{
-			_filledBarRect.width = Std.int(interval);
+			_filledBarRect.width = floor(interval);
 		}
 		else
 		{
-			_filledBarRect.height = Std.int(interval);
+			_filledBarRect.height = floor(interval);
 		}
 
 		if (percent > 0)
@@ -786,20 +793,20 @@ class FlxBar extends FlxSprite
 					_filledBarPoint.x = barWidth - _filledBarRect.width;
 
 				case HORIZONTAL_INSIDE_OUT:
-					_filledBarRect.x = Std.int((barWidth / 2) - (_filledBarRect.width / 2));
-					_filledBarPoint.x = Std.int((barWidth / 2) - (_filledBarRect.width / 2));
+					_filledBarRect.x = floor((barWidth / 2) - (_filledBarRect.width / 2));
+					_filledBarPoint.x = floor((barWidth / 2) - (_filledBarRect.width / 2));
 
 				case HORIZONTAL_OUTSIDE_IN:
-					_filledBarRect.width = Std.int(maxScale - interval);
-					_filledBarPoint.x = Std.int((barWidth - _filledBarRect.width) / 2);
+					_filledBarRect.width = floor(maxScale - interval);
+					_filledBarPoint.x = floor((barWidth - _filledBarRect.width) / 2);
 
 				case VERTICAL_INSIDE_OUT:
-					_filledBarRect.y = Std.int((barHeight / 2) - (_filledBarRect.height / 2));
-					_filledBarPoint.y = Std.int((barHeight / 2) - (_filledBarRect.height / 2));
+					_filledBarRect.y = floor((barHeight / 2) - (_filledBarRect.height / 2));
+					_filledBarPoint.y = floor((barHeight / 2) - (_filledBarRect.height / 2));
 
 				case VERTICAL_OUTSIDE_IN:
-					_filledBarRect.height = Std.int(maxScale - interval);
-					_filledBarPoint.y = Std.int((barHeight - _filledBarRect.height) / 2);
+					_filledBarRect.height = floor(maxScale - interval);
+					_filledBarPoint.y = floor((barHeight - _filledBarRect.height) / 2);
 			}
 
 			if (FlxG.renderBlit)

@@ -1,5 +1,6 @@
 package flixel;
 
+import flixel.graphics.tile.FlxGraphicsShader;
 import flash.display.BitmapData;
 import flash.display.BlendMode;
 import flash.geom.ColorTransform;

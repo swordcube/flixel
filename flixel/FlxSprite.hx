@@ -1,5 +1,6 @@
 package flixel;
 
+import flixel.graphics.tile.FlxGraphicsShader;
 import flash.display.BitmapData;
 import flash.display.BlendMode;
 import flash.geom.ColorTransform;
@@ -28,13 +29,13 @@ using flixel.util.FlxColorTransformUtil;
 /**
  * The core building blocks of all Flixel games. With helpful tools for animation, movement and
  * features for the needs of most games.
- * 
+ *
  * It is pretty common place to extend `FlxSprite` for your own game's needs; for example a `SpaceShip`
  * class may extend `FlxSprite` but could have additional variables for the game like `shieldStrength`
  * or `shieldPower`.
- * 
+ *
  * - [Handbook - FlxSprite](https://haxeflixel.com/documentation/flxsprite/)
- * 
+ *
  * ## Collision and Motion
  * Flixel handles many aspects of collision nad physics motions for you. This is all defined in the
  * base class: [FlxObject](https://api.haxeflixel.com/flixel/FlxObject.html), check there for things
@@ -42,7 +43,7 @@ using flixel.util.FlxColorTransformUtil;
  * and `angularVelocity`. All of these affect the movement and orientation of the sprite as well
  * as [FlxG.collide](https://api.haxeflixel.com/flixel/FlxG.html#collide) and
  * [FlxG.overlap](https://api.haxeflixel.com/flixel/FlxG.html#overlap)
- * 
+ *
  * ## Graphics
  * `FlxSprites` are just `FlxObjects` with the ability to show graphics. There are various ways to do this.
  * ### `loadGraphic()`
@@ -55,7 +56,7 @@ using flixel.util.FlxColorTransformUtil;
  * player.loadGraphic("assets/player.png");
  * add(player);
  * ```
- * 
+ *
  * ####Animations
  * [Snippets - Animations](https://snippets.haxeflixel.com/sprites/animation/)
  * When loading a graphic for a `FlxSprite`, you can specify is as an animated graphic. Then, using
@@ -63,14 +64,14 @@ using flixel.util.FlxColorTransformUtil;
  * ```haxe
  *  // sprite's graphic will be loaded from 'path/to/image.png' and is set to allow animations.
  * sprite.loadGraphic('path/to/image/png', true);
- * 
+ *
  * // add an animation named 'run' to sprite, using the specified frames
  * sprite.animation.add('run', [0, 1, 2, 1]);
- * 
+ *
  * // play the 'run' animation
  * sprite.animation.play('run');
  * ```
- * 
+ *
  * ### `makeGraphic()`
  * [Snippets - Loading Sprites](https://snippets.haxeflixel.com/sprites/making-sprites/)
  * This method is a handy way to make a simple color fill to quickly test a feature or have the basic shape.
@@ -85,19 +86,19 @@ using flixel.util.FlxColorTransformUtil;
  * whiteSquare.x = 100;
  * whiteSquare.y = 300;
  * ```
- * 
+ *
  * ### Size: width, height
  * Automatically set in loadGraphic() or makeGraphic(), changing this will only affect the hitbox
  * of this sprite, use scale to change the graphic's size.
  * ```haxe
  * // get
  * var getWidth = whiteSquare.width;
- * 
+ *
  * // set
  * whiteSquare.width = 100;
  * whiteSquare.height = 100;
  * ```
- * 
+ *
  * ### Scale
  * [Snippets - Scale](https://snippets.haxeflixel.com/sprites/scale/)
  * (FlxPoint) Change the size of your sprite's graphic. NOTE: The hitbox is not automatically
@@ -105,26 +106,26 @@ using flixel.util.FlxColorTransformUtil;
  * ```haxe
  * // twice as big
  * whiteSquare.scale.set(2, 2);
- * 
+ *
  * // 50%
  * whiteSquare.scale.set(0.5, 0.5);
  * ```
- * 
+ *
  * ### Offset
  * (FlxPoint) Controls the position of the sprite's hitbox. Likely needs to be adjusted after changing a sprite's width, height or scale.
  * ```haxe
  * whiteSquare.offset.set(50, 50);
  * ```
- * 
+ *
  * ### Origin
  * (FlxPoint) Rotation axis. Default: center.
- * 
+ *
  * WARNING: If you change this, the visuals and the collisions will likely be pretty out-of-sync if you do any rotation.
  * ```haxe
  * // rotate from top-left corner instead of center
  * whiteSquare.origin.set(0, 0);
  * ```
- * 
+ *
  */
 class FlxSprite extends FlxObject
 {
@@ -836,6 +837,9 @@ class FlxSprite extends FlxObject
 		if (dirty) // rarely
 			calcFrame(useFramePixels);
 
+		if (shader != null && shader is FlxGraphicsShader)
+			shader.setCamSize(_frame.frame.x, _frame.frame.y, _frame.frame.width, _frame.frame.height);
+
 		for (camera in cameras)
 		{
 			if (!camera.visible || !camera.exists || !isOnScreen(camera))
@@ -1091,7 +1095,7 @@ class FlxSprite extends FlxObject
 	/**
 	 * Determines which of this sprite's pixels are at the specified world coordinate, if any.
 	 * Factors in `scale`, `angle`, `offset`, `origin`, and `scrollFactor`.
-	 * 
+	 *
 	 * @param  worldPoint  The point in world space
 	 * @param  camera      The camera, used for `scrollFactor`. If `null`, `FlxG.camera` is used.
 	 * @return a `FlxColor`, if the point is in the sprite's graphic, otherwise `null` is returned.
@@ -1114,7 +1118,7 @@ class FlxSprite extends FlxObject
 	/**
 	 * Determines which of this sprite's pixels are at the specified screen coordinate, if any.
 	 * Factors in `scale`, `angle`, `offset`, `origin`, and `scrollFactor`.
-	 * 
+	 *
 	 * @param  screenPoint  The point in screen space
 	 * @param  camera       The desired "screen" coordinate space. If `null`, `FlxG.camera` is used.
 	 * @return a `FlxColor`, if the point is in the sprite's graphic, otherwise `null` is returned.
@@ -1138,7 +1142,7 @@ class FlxSprite extends FlxObject
 	 * Converts the point from world coordinates to this sprite's pixel coordinates where (0,0)
 	 * is the top left of the graphic.
 	 * Factors in `scale`, `angle`, `offset`, `origin`, and `scrollFactor`.
-	 * 
+	 *
 	 * @param   worldPoint  The world coordinates.
 	 * @param   camera      The camera, used for `scrollFactor`. If `null`, `FlxG.camera` is used.
 	 * @param   result      Optional arg for the returning point
@@ -1157,7 +1161,7 @@ class FlxSprite extends FlxObject
 	 * Converts the point from world coordinates to this sprite's pixel coordinates where (0,0)
 	 * is the top left of the graphic. Same as `worldToPixels` but never uses a camera,
 	 * therefore `scrollFactor` is ignored
-	 * 
+	 *
 	 * @param   worldPoint  The world coordinates.
 	 * @param   result      Optional arg for the returning point
 	 */
@@ -1182,7 +1186,7 @@ class FlxSprite extends FlxObject
 	 * Converts the point from screen coordinates to this sprite's pixel coordinates where (0,0)
 	 * is the top left of the graphic.
 	 * Factors in `scale`, `angle`, `offset`, `origin`, and `scrollFactor`.
-	 * 
+	 *
 	 * @param   screenPoint  The screen coordinates
 	 * @param   camera       The desired "screen" coordinate space. If `null`, `FlxG.camera` is used.
 	 * @param   result       Optional arg for the returning point

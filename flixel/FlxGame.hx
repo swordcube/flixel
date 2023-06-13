@@ -8,6 +8,8 @@ import flash.events.Event;
 import flixel.graphics.tile.FlxDrawBaseItem;
 import flixel.system.FlxSplash;
 import flixel.util.FlxArrayUtil;
+import openfl.filters.ShaderFilter;
+import flixel.system.FlxAssets.FlxShader;
 import openfl.Assets;
 import openfl.filters.BitmapFilter;
 #if desktop
@@ -292,6 +294,44 @@ class FlxGame extends Sprite
 		_initialState = (initialState == null) ? FlxState : initialState;
 
 		addEventListener(Event.ADDED_TO_STAGE, create);
+	}
+
+	/**
+	 * Adds a FlxShader as a filter to the FlxGame
+	 * @param shader Shader to add
+	 * @return ShaderFilter
+	 */
+	public function addShader(shader:FlxShader)
+	{
+		var filter:ShaderFilter = null;
+		if (_filters == null)
+			_filters = [];
+		_filters.push(filter = new ShaderFilter(shader));
+		return filter;
+	}
+
+	/**
+	 * Removes a FlxShader's ShaderFilter from the FlxGame.
+	 * @param shader Shader to remove
+	 * @return Whenever the shader has been successfully removed or not.
+	 */
+	public function removeShader(shader:FlxShader):Bool
+	{
+		if (_filters == null)
+			_filters = [];
+		for (f in _filters)
+		{
+			if (f is ShaderFilter)
+			{
+				var sf = cast(f, ShaderFilter);
+				if (sf.shader == shader)
+				{
+					_filters.remove(f);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -630,7 +670,6 @@ class FlxGame extends Sprite
 		// Destroy the old state (if there is an old state)
 		if (_state != null)
 			_state.destroy();
-
 
 		// Finally assign and create the new state
 		_state = _requestedState;

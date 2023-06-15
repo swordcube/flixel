@@ -766,8 +766,6 @@ class FlxBar extends FlxSprite
 		var scaleInterval:Float = maxScale / numDivisions;
 		var interval:Float = unbounded ? fraction * maxScale : Math.round(Std.int(fraction * maxScale / scaleInterval) * scaleInterval);
 
-		var floor = unbounded ?(val:Float) -> val : Std.int;
-
 		if (_fillHorizontal)
 		{
 			_filledBarRect.width = floor(interval);
@@ -1032,6 +1030,12 @@ class FlxBar extends FlxSprite
 			createImageEmptyBar(value.frame.paint());
 		}
 		return value;
+	}
+
+	function floor(x:Float):Float
+	{
+	    if(unbounded) return x;
+	    return Std.int(x);
 	}
 }
 

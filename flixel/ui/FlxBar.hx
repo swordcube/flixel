@@ -766,15 +766,13 @@ class FlxBar extends FlxSprite
 		var scaleInterval:Float = maxScale / numDivisions;
 		var interval:Float = unbounded ? fraction * maxScale : Math.round(Std.int(fraction * maxScale / scaleInterval) * scaleInterval);
 
-		var floor = unbounded ?(val:Float) -> val : Std.int;
-
 		if (_fillHorizontal)
 		{
-			_filledBarRect.width = floor(interval);
+			_filledBarRect.width = floorFunc(interval);
 		}
 		else
 		{
-			_filledBarRect.height = floor(interval);
+			_filledBarRect.height = floorFunc(interval);
 		}
 
 		if (percent > 0)
@@ -793,20 +791,20 @@ class FlxBar extends FlxSprite
 					_filledBarPoint.x = barWidth - _filledBarRect.width;
 
 				case HORIZONTAL_INSIDE_OUT:
-					_filledBarRect.x = floor((barWidth / 2) - (_filledBarRect.width / 2));
-					_filledBarPoint.x = floor((barWidth / 2) - (_filledBarRect.width / 2));
+					_filledBarRect.x = floorFunc((barWidth / 2) - (_filledBarRect.width / 2));
+					_filledBarPoint.x = floorFunc((barWidth / 2) - (_filledBarRect.width / 2));
 
 				case HORIZONTAL_OUTSIDE_IN:
-					_filledBarRect.width = floor(maxScale - interval);
-					_filledBarPoint.x = floor((barWidth - _filledBarRect.width) / 2);
+					_filledBarRect.width = floorFunc(maxScale - interval);
+					_filledBarPoint.x = floorFunc((barWidth - _filledBarRect.width) / 2);
 
 				case VERTICAL_INSIDE_OUT:
-					_filledBarRect.y = floor((barHeight / 2) - (_filledBarRect.height / 2));
-					_filledBarPoint.y = floor((barHeight / 2) - (_filledBarRect.height / 2));
+					_filledBarRect.y = floorFunc((barHeight / 2) - (_filledBarRect.height / 2));
+					_filledBarPoint.y = floorFunc((barHeight / 2) - (_filledBarRect.height / 2));
 
 				case VERTICAL_OUTSIDE_IN:
-					_filledBarRect.height = floor(maxScale - interval);
-					_filledBarPoint.y = floor((barHeight - _filledBarRect.height) / 2);
+					_filledBarRect.height = floorFunc(maxScale - interval);
+					_filledBarPoint.y = floorFunc((barHeight - _filledBarRect.height) / 2);
 			}
 
 			if (FlxG.renderBlit)
@@ -1032,6 +1030,13 @@ class FlxBar extends FlxSprite
 			createImageEmptyBar(value.frame.paint());
 		}
 		return value;
+	}
+
+	function floorFunc(x:Float):Float
+	{
+		if (unbounded)
+			return x;
+		return Std.int(x);
 	}
 }
 

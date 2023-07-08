@@ -80,9 +80,9 @@ class FlxAnimation extends FlxBaseAnimation
 	public var frames:Array<Int>;
 
 	/**
-	 * If addByIndicies was used
+	 * Whether or not addByIndices was used.
 	 */
-	public var usesIndicies:Bool = false;
+	public var usesIndices:Bool = false;
 
 	/**
 	 * Internal, used to time each frame of animation.

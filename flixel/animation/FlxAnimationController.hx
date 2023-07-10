@@ -352,6 +352,7 @@ class FlxAnimationController implements IFlxDestroyable
 		{
 			var anim:FlxAnimation = new FlxAnimation(this, Name, frameIndices, FrameRate, Looped, FlipX, FlipY);
 			anim.prefix = Prefix;
+			anim.usesIndices = true;
 			_animations.set(Name, anim);
 		}
 	}

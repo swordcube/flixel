@@ -1372,14 +1372,16 @@ class FlxCamera extends FlxBasic
 				_lastTargetPosition.y = target.y;
 			}
 
-			if (followLerp == Math.POSITIVE_INFINITY)
+			var adjustedLerp:Float = followLerp * FlxG.elapsed * 60;
+			
+			if (adjustedLerp >= 1 || followLerp == Math.POSITIVE_INFINITY || followLerp >= 1)
 			{
 				scroll.copyFrom(_scrollTarget); // no easing
 			}
 			else
 			{
-				scroll.x = FlxMath.lerp(scroll.x, _scrollTarget.x, FlxMath.bound(followLerp * FlxG.elapsed * 60, 0, 1));
-				scroll.y = FlxMath.lerp(scroll.y, _scrollTarget.y, FlxMath.bound(followLerp * FlxG.elapsed * 60, 0, 1));
+				scroll.x = FlxMath.lerp(scroll.x, _scrollTarget.x, adjustedLerp);
+				scroll.y = FlxMath.lerp(scroll.y, _scrollTarget.y, adjustedLerp);
 			}
 		}
 	}

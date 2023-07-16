@@ -871,7 +871,7 @@ class FlxObject extends FlxBasic
 		if (path != null && path.active)
 			path.update(elapsed);
 
-		if (moves)
+		if (moves && (velocity.x != 0 || velocity.y != 0 || angularVelocity != 0))
 			updateMotion(elapsed);
 
 		wasTouching = touching;
@@ -886,22 +886,32 @@ class FlxObject extends FlxBasic
 	@:noCompletion
 	function updateMotion(elapsed:Float):Void
 	{
+		if (velocity.x == 0 && velocity.y == 0 && angularVelocity == 0)
+			return;
+
 		var velocityDelta = 0.5 * (FlxVelocity.computeVelocity(angularVelocity, angularAcceleration, angularDrag, maxAngular, elapsed) - angularVelocity);
-		angularVelocity += velocityDelta;
-		angle += angularVelocity * elapsed;
-		angularVelocity += velocityDelta;
 
-		velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, elapsed) - velocity.x);
-		velocity.x += velocityDelta;
-		var delta = velocity.x * elapsed;
-		velocity.x += velocityDelta;
-		x += delta;
+        if (angularVelocity != 0) {
+            angularVelocity += velocityDelta;
+            angle += angularVelocity * elapsed;
+            angularVelocity += velocityDelta;
+        }
 
-		velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, elapsed) - velocity.y);
-		velocity.y += velocityDelta;
-		delta = velocity.y * elapsed;
-		velocity.y += velocityDelta;
-		y += delta;
+        if (velocity.x != 0) {
+            velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x, elapsed) - velocity.x);
+            velocity.x += velocityDelta;
+            var delta = velocity.x * elapsed;
+            velocity.x += velocityDelta;
+            x += delta;
+        }
+
+        if (velocity.y != 0) {
+            velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y, elapsed) - velocity.y);
+            velocity.y += velocityDelta;
+            var delta = velocity.y * elapsed;
+            velocity.y += velocityDelta;
+            y += delta;
+        }
 	}
 
 	/**
@@ -1086,9 +1096,8 @@ class FlxObject extends FlxBasic
 		result.set(x, y);
 		if (pixelPerfectPosition)
 			result.floor();
-		result.subtract(camera.scroll.x * scrollFactor.x, camera.scroll.y * scrollFactor.y);
 
-		return camera.alterScreenPosition(this, result);
+		return result.subtract(camera.scroll.x * scrollFactor.x, camera.scroll.y * scrollFactor.y);
 	}
 
 	/**
@@ -1516,7 +1525,7 @@ class FlxObject extends FlxBasic
 /**
  * Determines when to apply collision drag to one object that collided with another.
  */
-@:enum abstract CollisionDragType(Int)
+enum abstract CollisionDragType(Int)
 {
 	/** Never drags on colliding objects. */
 	var NEVER = 0;

@@ -45,6 +45,7 @@ enum HelperDefines
 	FLX_FOCUS_LOST_SCREEN;
 	FLX_DEBUG;
 	FLX_STEAMWRAP;
+	FLX_CNE_FORK;
 
 	FLX_MOUSE_ADVANCED;
 	FLX_NATIVE_CURSOR;
@@ -152,7 +153,7 @@ class FlxDefines
 		#end
 		if (!defined(FLX_NO_PITCH))
 			define(FLX_PITCH);
-		
+
 		if ((!defined("openfl_legacy") && !defined("flash")) || defined("flash11_8"))
 			define(FLX_GAMEINPUT_API);
 		else if (!defined("openfl_next") && (defined("cpp") || defined("neko")))
@@ -179,6 +180,8 @@ class FlxDefines
 		#if (openfl >= "8.0.0")
 		define(FLX_DRAW_QUADS);
 		#end
+
+		define(FLX_CNE_FORK);
 	}
 
 	static function defineInversion(userDefine:UserDefines, invertedDefine:HelperDefines)

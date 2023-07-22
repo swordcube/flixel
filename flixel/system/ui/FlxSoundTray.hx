@@ -27,6 +27,21 @@ class FlxSoundTray extends Sprite
 	public static var volumeChangeSFX:String = "flixel/sounds/beep";
 
 	/**
+		The sound that'll play when you increase volume.
+	**/
+	public static var volumeUpChangeSFX:String = null;
+
+	/**
+		The sound that'll play when you decrease volume.
+	**/
+	public static var volumeDownChangeSFX:String = null;
+
+	/**
+		Whether or not changing the volume should make noise.
+	**/
+	public static var silent:Bool = false;
+
+	/**
 	 * "VOLUME" text.
 	 */
 	public var text:TextField = new TextField();
@@ -138,11 +153,14 @@ class FlxSoundTray extends Sprite
 	 *
 	 * @param	Silent	Whether or not it should beep.
 	 */
-	public function show(Silent:Bool = false):Void
+	public function show(up:Bool = false):Void
 	{
-		if (!Silent)
+		if (!silent)
 		{
-			FlxG.sound.load(volumeChangeSFX).play();
+			var sound = up ? volumeUpChangeSFX : volumeDownChangeSFX;
+			if (sound == null)
+				sound = volumeChangeSFX;
+			FlxG.sound.load(sound).play();
 		}
 
 		_timer = 1;

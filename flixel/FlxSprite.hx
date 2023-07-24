@@ -301,6 +301,11 @@ class FlxSprite extends FlxObject
 	public var shader:FlxShader;
 
 	/**
+	 * Whether the shader should be enabled.
+	 */
+	public var shaderEnabled:Bool = true;
+
+	/**
 	 * The actual frame used for sprite rendering
 	 */
 	@:noCompletion
@@ -910,7 +915,7 @@ class FlxSprite extends FlxObject
 
 		doAdditionalMatrixStuff(_matrix, camera);
 
-		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shader);
+		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shaderEnabled ? shader : null);
 	}
 
 	/**

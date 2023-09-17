@@ -588,7 +588,7 @@ class FlxG
 		FlxG.initialWidth = width;
 		FlxG.initialHeight = height;
 
-		resizeGame(Lib.current.stage.stageWidth, Lib.current.stage.stageHeight);
+		resizeGame((width > 0) ? width : Lib.current.stage.stageWidth, (height > 0) ? height : Lib.current.stage.stageHeight);
 
 		// Instantiate inputs
 		#if FLX_KEYBOARD

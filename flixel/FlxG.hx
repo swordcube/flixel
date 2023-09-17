@@ -339,8 +339,6 @@ class FlxG
 	public static inline function resizeGame(Width:Int, Height:Int):Void
 	{
 		scaleMode.onMeasure(Width, Height);
-		width = Width;
-		height = Height;
 	}
 
 	/**

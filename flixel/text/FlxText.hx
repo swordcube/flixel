@@ -797,6 +797,13 @@ class FlxText extends FlxSprite
 
 		if (oldWidth != newWidth || oldHeight != newHeight)
 		{
+			// Destroy old text graphic to avoid memory leaks
+			if(graphic != null) 
+			{
+				graphic.dump();
+				graphic.destroy();
+			}
+
 			// Need to generate a new buffer to store the text graphic
 			height = newHeight;
 			var key:String = FlxG.bitmap.getUniqueKey("text");

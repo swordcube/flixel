@@ -583,15 +583,12 @@ class FlxG
 		width = Std.int(Math.abs(Width));
 		height = Std.int(Math.abs(Height));
 
-		if(width <= 0) width = Lib.current.stage.stageWidth;
-		if(height <= 0) height = Lib.current.stage.stageHeight;
-
 		initRenderMethod();
 
 		FlxG.initialWidth = width;
 		FlxG.initialHeight = height;
 
-		resizeGame(width, height);
+		resizeGame(Lib.current.stage.stageWidth, Lib.current.stage.stageHeight);
 
 		// Instantiate inputs
 		#if FLX_KEYBOARD

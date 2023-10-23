@@ -1373,7 +1373,7 @@ class FlxSprite extends FlxObject
 		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y - _scaledOrigin.y;
 		if (isPixelPerfectRender(camera))
 			newRect.floor();
-		newRect.setSize((frameWidth * Math.abs(scale.x)) + _scaledFrameOffset.x, (frameHeight * Math.abs(scale.y)) + _scaledFrameOffset.y);
+		newRect.setSize((frameWidth * Math.abs(scale.x)) - _scaledFrameOffset.x, (frameHeight * Math.abs(scale.y)) - _scaledFrameOffset.y);
 		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect, _scaledFrameOffset);
 	}
 

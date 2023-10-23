@@ -12,6 +12,7 @@ import openfl.filters.ShaderFilter;
 import flixel.system.FlxAssets.FlxShader;
 import openfl.Assets;
 import openfl.filters.BitmapFilter;
+import flixel.util.FlxDestroyUtil;
 #if desktop
 import flash.events.FocusEvent;
 #end
@@ -803,7 +804,7 @@ class FlxGame extends Sprite
 		#end
 
 		#if FLX_POINTER_INPUT
-		FlxArrayUtil.clearArray(FlxG.swipes);
+		FlxDestroyUtil.destroyArray(FlxG.swipes);
 		#end
 
 		filters = filtersEnabled ? _filters : null;

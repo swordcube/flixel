@@ -1628,6 +1628,7 @@ class FlxSprite extends FlxObject
 		}
 		else
 		{
+			// possible bug here with EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX
 			frames = null;
 			frame = null;
 			graphic = null;

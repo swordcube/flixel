@@ -341,7 +341,7 @@ class FlxTimerManager extends FlxBasic
 	{
 		var timersToFinish:Array<FlxTimer> = [];
 		for (timer in _timers)
-			if (timer.loops > 0 && timer.active && !tween.paused)
+			if (timer.loops > 0 && timer.active && !timer.paused)
 				timersToFinish.push(timer);
 
 		for (timer in timersToFinish)

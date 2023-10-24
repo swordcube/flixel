@@ -499,6 +499,7 @@ class FlxTween implements IFlxDestroyable
 	 */
 	public var manager:FlxTweenManager;
 
+	public var paused:Bool = true;
 	public var active(default, set):Bool = false;
 	public var duration:Float = 0;
 	public var ease:EaseFunction;
@@ -653,9 +654,11 @@ class FlxTween implements IFlxDestroyable
 		_delayToUse = (executions > 0) ? loopDelay : startDelay;
 		if (duration == 0)
 		{
+			paused = true;
 			active = false;
 			return this;
 		}
+		paused = false;
 		active = true;
 		_running = false;
 		finished = false;
@@ -753,6 +756,7 @@ class FlxTween implements IFlxDestroyable
 
 	function setVarsOnEnd():Void
 	{
+		paused = true;
 		active = false;
 		_running = false;
 		finished = true;
@@ -1257,7 +1261,7 @@ class FlxTweenManager extends FlxBasic
 
 		for (tween in _tweens)
 		{
-			if (!tween.active)
+			if (!tween.active || tween.paused)
 				continue;
 
 			tween.update(elapsed);
@@ -1314,6 +1318,7 @@ class FlxTweenManager extends FlxBasic
 			return null;
 
 		Tween.active = false;
+		Tween.paused = true;
 
 		if (Destroy)
 			Tween.destroy();
@@ -1332,6 +1337,7 @@ class FlxTweenManager extends FlxBasic
 		{
 			if (tween != null)
 			{
+				tween.paused = true;
 				tween.active = false;
 				tween.destroy();
 			}
@@ -1383,7 +1389,7 @@ class FlxTweenManager extends FlxBasic
 		forEachTweensOf(Object, FieldPaths,
 			function (tween)
 			{
-				if ((tween.type & FlxTweenType.LOOPING) == 0 && (tween.type & FlxTweenType.PINGPONG) == 0 && tween.active)
+				if ((tween.type & FlxTweenType.LOOPING) == 0 && (tween.type & FlxTweenType.PINGPONG) == 0 && tween.active && !tween.paused)
 					tween.update(FlxMath.MAX_VALUE_FLOAT);
 			}
 		);
@@ -1468,7 +1474,7 @@ class FlxTweenManager extends FlxBasic
 	public function completeAll():Void
 	{
 		for (tween in _tweens)
-			if ((tween.type & FlxTweenType.LOOPING) == 0 && (tween.type & FlxTweenType.PINGPONG) == 0 && tween.active)
+			if ((tween.type & FlxTweenType.LOOPING) == 0 && (tween.type & FlxTweenType.PINGPONG) == 0 && tween.active && !tween.paused)
 				tween.update(FlxMath.MAX_VALUE_FLOAT);
 	}
 

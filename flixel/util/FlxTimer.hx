@@ -49,7 +49,7 @@ class FlxTimer implements IFlxDestroyable
 	 * Useful for keeping tweens active after unpausing the game
 	 * via a pause menu.
 	 */
-	private var paused:Bool = true;
+	public var paused:Bool = true;
 
 	/**
 	 * Pauses or checks the pause state of the timer.

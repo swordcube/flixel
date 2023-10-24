@@ -40,7 +40,8 @@ class FlxMouseButton extends FlxInput<Int> implements IFlxDestroyable
 		#if FLX_POINTER_INPUT
 		else if (justReleased)
 		{
-			FlxG.swipes.push(new FlxSwipe(ID, justPressedPosition, FlxG.mouse.getScreenPosition(), justPressedTimeInTicks));
+			// FlxPoint.weak(justPressedPosition.x, justPressedPosition.y)
+			FlxG.swipes.push(new FlxSwipe(ID, justPressedPosition, FlxG.mouse.getScreenPosition(FlxPoint.weak()), justPressedTimeInTicks));
 		}
 		#end
 	}

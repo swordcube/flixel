@@ -18,10 +18,10 @@ import haxe.ds.Vector;
  */
 class FlxFrame implements IFlxDestroyable
 {
-	var point1:Point = new Point();
-	var point2:Point = new Point();
-	var rect:Rectangle = new Rectangle();
-	var matrix:FlxMatrix = new FlxMatrix();
+	static var point1:Point = new Point();
+	static var point2:Point = new Point();
+	static var rect:Rectangle = new Rectangle();
+	static var matrix:FlxMatrix = new FlxMatrix();
 
 	/**
 	 * Sorts an array of `FlxFrame` objects by their name, e.g.

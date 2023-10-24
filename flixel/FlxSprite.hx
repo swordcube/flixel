@@ -1297,6 +1297,9 @@ class FlxSprite extends FlxObject
 	 */
 	override public function isOnScreen(?camera:FlxCamera):Bool
 	{
+		if (forceIsOnScreen)
+			return true;
+
 		if (camera == null)
 			camera = FlxG.camera;
 
@@ -1628,6 +1631,7 @@ class FlxSprite extends FlxObject
 		}
 		else
 		{
+			// possible bug here with EXPERIMENTAL_FLXGRAPHIC_DESTROY_FIX
 			frames = null;
 			frame = null;
 			graphic = null;

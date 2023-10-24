@@ -41,20 +41,22 @@ using flixel.util.FlxColorTransformUtil;
  */
 interface IEmbeddedBitmapData
 {
-	var onLoad:()->Void;
+	var onLoad:() -> Void;
 }
 
 @:keep @:bitmap("assets/images/tile/autotiles.png")
 class RawGraphicAuto extends BitmapData {}
+
 class GraphicAuto extends RawGraphicAuto implements IEmbeddedBitmapData
 {
 	static inline var WIDTH = 128;
 	static inline var HEIGHT = 8;
 
-	public var onLoad:()->Void;
-	public function new ()
+	public var onLoad:() -> Void;
+
+	public function new()
 	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
+		super(WIDTH, HEIGHT, true, 0xFFffffff, (_) -> if (onLoad != null) onLoad());
 		// Set properties because `@:bitmap` constructors ignore width/height
 		this.width = WIDTH;
 		this.height = HEIGHT;
@@ -63,15 +65,17 @@ class GraphicAuto extends RawGraphicAuto implements IEmbeddedBitmapData
 
 @:keep @:bitmap("assets/images/tile/autotiles_alt.png")
 class RawGraphicAutoAlt extends BitmapData {}
+
 class GraphicAutoAlt extends RawGraphicAutoAlt implements IEmbeddedBitmapData
 {
 	static inline var WIDTH = 128;
 	static inline var HEIGHT = 8;
 
-	public var onLoad:()->Void;
-	public function new ()
+	public var onLoad:() -> Void;
+
+	public function new()
 	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
+		super(WIDTH, HEIGHT, true, 0xFFffffff, (_) -> if (onLoad != null) onLoad());
 		// Set properties because `@:bitmap` constructors ignore width/height
 		this.width = WIDTH;
 		this.height = HEIGHT;
@@ -80,15 +84,17 @@ class GraphicAutoAlt extends RawGraphicAutoAlt implements IEmbeddedBitmapData
 
 @:keep @:bitmap("assets/images/tile/autotiles_full.png")
 class RawGraphicAutoFull extends BitmapData {}
+
 class GraphicAutoFull extends RawGraphicAutoFull implements IEmbeddedBitmapData
 {
 	static inline var WIDTH = 256;
 	static inline var HEIGHT = 48;
 
-	public var onLoad:()->Void;
-	public function new ()
+	public var onLoad:() -> Void;
+
+	public function new()
 	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
+		super(WIDTH, HEIGHT, true, 0xFFffffff, (_) -> if (onLoad != null) onLoad());
 		// Set properties because `@:bitmap` constructors ignore width/height
 		this.width = WIDTH;
 		this.height = HEIGHT;
@@ -190,7 +196,7 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 	 * The scaled height of a single tile.
 	 */
 	public var scaledTileHeight(default, null):Float = 0;
-	
+
 	/**
 	 * The scaled width of the entire map.
 	 */
@@ -402,12 +408,7 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 
 	function padTileFrames(tileWidth:Int, tileHeight:Int, graphic:FlxGraphic, padding:Int)
 	{
-		return FlxTileFrames.fromBitmapAddSpacesAndBorders(
-			graphic,
-			FlxPoint.get(tileWidth, tileHeight),
-			null,
-			FlxPoint.get(padding, padding)
-		);
+		return FlxTileFrames.fromBitmapAddSpacesAndBorders(graphic, FlxPoint.get(tileWidth, tileHeight), null, FlxPoint.get(padding, padding));
 	}
 
 	override function initTileObjects():Void
@@ -574,6 +575,9 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 	 */
 	override public function isOnScreen(?camera:FlxCamera):Bool
 	{
+		if (forceIsOnScreen)
+			return true;
+
 		if (camera == null)
 			camera = FlxG.camera;
 
@@ -857,13 +861,12 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 		if (camera == null)
 			camera = FlxG.camera;
 
-		camera.setScrollBoundsRect(
-			x + border * scaledTileWidth,
-			y + border * scaledTileHeight,
-			scaledWidth - border * scaledTileWidth * 2,
-			scaledHeight - border * scaledTileHeight * 2,
-			updateWorld
-		);
+		camera.setScrollBoundsRect(x
+			+ border * scaledTileWidth, y
+			+ border * scaledTileHeight, scaledWidth
+			- border * scaledTileWidth * 2,
+			scaledHeight
+			- border * scaledTileHeight * 2, updateWorld);
 	}
 
 	/**
@@ -911,7 +914,7 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 		{
 			if (result != null)
 				result.copyFrom(start);
-			
+
 			clearRefs();
 			return false;
 		}
@@ -974,7 +977,7 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 						result.x += scaledTileWidth;
 
 					// set result to left side
-					result.y = m * result.x + b;//mx + b
+					result.y = m * result.x + b; // mx + b
 				}
 				else
 				{
@@ -1000,16 +1003,16 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 	{
 		if (startY < 0)
 			startY = 0;
-		
+
 		if (endY < 0)
 			endY = 0;
-		
+
 		if (startY > heightInTiles - 1)
 			startY = heightInTiles - 1;
-		
+
 		if (endY > heightInTiles - 1)
 			endY = heightInTiles - 1;
-		
+
 		var y = startY;
 		final step = startY <= endY ? 1 : -1;
 		while (true)
@@ -1017,13 +1020,13 @@ class FlxTilemap extends FlxBaseTilemap<FlxTile>
 			var index = y * widthInTiles + x;
 			if (getTileCollisions(getTileByIndex(index)) != NONE)
 				return index;
-			
+
 			if (y == endY)
 				break;
-			
+
 			y += step;
 		}
-		
+
 		return -1;
 	}
 

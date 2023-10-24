@@ -161,13 +161,19 @@ class FlxState extends FlxGroup
 
 			subState._parentState = this;
 
-			if (!subState._created)
+			var didCreate = false;
+
+			if (didCreate = !subState._created)
 			{
 				subState._created = true;
 				subState.create();
 			}
 			if (subState.openCallback != null)
 				subState.openCallback();
+
+			if (didCreate)
+				subState.createPost();
+
 			if (_subStateOpened != null)
 				_subStateOpened.dispatch(subState);
 		}

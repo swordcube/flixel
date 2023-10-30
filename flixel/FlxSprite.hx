@@ -691,7 +691,7 @@ class FlxSprite extends FlxObject
 	 */
 	public function makeSolid(Width:Int, Height:Int, Color:FlxColor = FlxColor.WHITE, Unique:Bool = false, ?Key:String):FlxSprite
 	{
-		var graph:FlxGraphic = FlxG.bitmap.create(1, 1, Color, Unique, Key);
+		var graph:FlxGraphic = FlxG.bitmap.create(Width, Height, Color, Unique, Key);
 		frames = graph.imageFrame;
 		scale.set(Width, Height);
 		updateHitbox();

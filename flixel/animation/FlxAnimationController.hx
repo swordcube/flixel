@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFrame;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 
+@:allow(flixel.animation.FlxAnimation)
 class FlxAnimationController implements IFlxDestroyable
 {
 	/**
@@ -654,6 +655,20 @@ class FlxAnimationController implements IFlxDestroyable
 	public inline function getByName(name:String):FlxAnimation
 	{
 		return _animations.get(name);
+	}
+
+	/**
+	 * Sets the X and Y offset for a specified animation.
+	 * 
+	 * @param name  The animation to offset.
+	 * @param x     The new X offset.
+	 * @param y     The new Y offset.
+	 */
+	public inline function setOffset(name:String, x:Float = 0, y:Float = 0) {
+		final anim:FlxAnimation = _animations.get(name);
+		if(anim == null)
+			return;
+		anim.offset.set(x, y);
 	}
 
 	/**

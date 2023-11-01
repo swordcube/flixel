@@ -1,6 +1,7 @@
 package flixel.animation;
 
 import flixel.FlxG;
+import flixel.math.FlxPoint;
 
 /**
  * Just a helper structure for the `FlxSprite` animation system.
@@ -85,6 +86,11 @@ class FlxAnimation extends FlxBaseAnimation
 	public var usesIndices:Bool = false;
 
 	/**
+	 * The X and Y offset of this animation.
+	 */
+	public var offset:FlxPoint = FlxPoint.get();
+
+	/**
 	 * Internal, used to time each frame of animation.
 	 */
 	var _frameTimer:Float = 0;
@@ -115,6 +121,7 @@ class FlxAnimation extends FlxBaseAnimation
 	{
 		frames = null;
 		name = null;
+		offset.put();
 		super.destroy();
 	}
 
@@ -141,6 +148,7 @@ class FlxAnimation extends FlxBaseAnimation
 		paused = false;
 		_frameTimer = 0;
 		finished = frameDuration == 0;
+		parent._sprite.frameOffset.copyFrom(offset);
 
 		var maxFrameIndex:Int = numFrames - 1;
 		if (Frame < 0)

@@ -63,11 +63,7 @@ class FlxMath
 	 */
 	public static function roundDecimal(Value:Float, Precision:Int):Float
 	{
-		var mult:Float = 1;
-		for (i in 0...Precision)
-		{
-			mult *= 10;
-		}
+		var mult:Float = 10 ^ Precision;
 		return Math.fround(Value * mult) / mult;
 	}
 

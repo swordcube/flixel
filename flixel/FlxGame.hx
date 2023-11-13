@@ -1,10 +1,10 @@
 package flixel;
 
-import flash.Lib;
-import flash.display.Sprite;
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-import flash.events.Event;
+import openfl.Lib;
+import openfl.display.Sprite;
+import openfl.display.StageAlign;
+import openfl.display.StageScaleMode;
+import openfl.events.Event;
 import flixel.graphics.tile.FlxDrawBaseItem;
 import flixel.system.FlxSplash;
 import flixel.util.FlxArrayUtil;
@@ -14,7 +14,7 @@ import openfl.Assets;
 import openfl.filters.BitmapFilter;
 import flixel.util.FlxDestroyUtil;
 #if desktop
-import flash.events.FocusEvent;
+import openfl.events.FocusEvent;
 #end
 #if FLX_POST_PROCESS
 import flixel.effects.postprocess.PostProcess;

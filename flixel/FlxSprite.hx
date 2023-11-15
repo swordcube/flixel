@@ -835,6 +835,12 @@ class FlxSprite extends FlxObject
 	 */
 	override public function draw():Void
 	{
+		_draw();
+	}
+
+	@:noCompletion
+	inline function _draw():Void
+	{
 		checkEmptyFrame();
 
 		if (alpha == 0 || _frame.type == FlxFrameType.EMPTY)

@@ -777,7 +777,7 @@ class FlxSound extends FlxBasic
 		return _transform.pan = pan;
 	}
 
-	inline function get_time():Float
+	function get_time():Float
 	{
 		return _time;
 	}

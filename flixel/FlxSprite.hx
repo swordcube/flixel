@@ -890,15 +890,16 @@ class FlxSprite extends FlxObject
 		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX() != camera.flipX, checkFlipY() != camera.flipY);
 		_matrix.translate(-origin.x, -origin.y);
 
+		var animOffset = (animation.curAnim != null) ? animation.curAnim.offset : FlxPoint.get();
 		if (frameOffsetAngle != null && frameOffsetAngle != angle)
 		{
 			var angleOff = (-angle + frameOffsetAngle) * FlxAngle.TO_RAD;
 			_matrix.rotate(-angleOff);
-			_matrix.translate(-frameOffset.x, -frameOffset.y);
+			_matrix.translate(-(frameOffset.x + animOffset.x), -(frameOffset.y + animOffset.y));
 			_matrix.rotate(angleOff);
 		}
 		else
-			_matrix.translate(-frameOffset.x, -frameOffset.y);
+			_matrix.translate(-(frameOffset.x + animOffset.x), -(frameOffset.y + animOffset.y));
 
 		_matrix.scale(scale.x, scale.y);
 
@@ -1374,16 +1375,18 @@ class FlxSprite extends FlxObject
 		if (camera == null)
 			camera = FlxG.camera;
 
+		var animOffset = (animation.curAnim != null) ? animation.curAnim.offset : FlxPoint.get();
+
 		newRect.setPosition(x, y);
 		if (pixelPerfectPosition)
 			newRect.floor();
 		_scaledOrigin.set(origin.x * scale.x, origin.y * scale.y);
-		_scaledFrameOffset.set(frameOffset.x * scale.x, frameOffset.y * scale.y);
+		_scaledFrameOffset.set((frameOffset.x + animOffset.x) * scale.x, (frameOffset.y + animOffset.y) * scale.y);
 		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x - _scaledOrigin.x;
 		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y - _scaledOrigin.y;
 		if (isPixelPerfectRender(camera))
 			newRect.floor();
-		newRect.setSize((frameWidth * Math.abs(scale.x)) - _scaledFrameOffset.x, (frameHeight * Math.abs(scale.y)) - _scaledFrameOffset.y);
+		newRect.setSize((frameWidth * Math.abs(scale.x)) - frameOffset.x, (frameHeight * Math.abs(scale.y)) - frameOffset.y);
 		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect, _scaledFrameOffset);
 	}
 

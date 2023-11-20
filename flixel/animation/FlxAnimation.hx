@@ -122,6 +122,7 @@ class FlxAnimation extends FlxBaseAnimation
 		frames = null;
 		name = null;
 		offset.put();
+		offset = null;
 		super.destroy();
 	}
 
@@ -148,7 +149,6 @@ class FlxAnimation extends FlxBaseAnimation
 		paused = false;
 		_frameTimer = 0;
 		finished = frameDuration == 0;
-		parent._sprite.frameOffset.copyFrom(offset);
 
 		var maxFrameIndex:Int = numFrames - 1;
 		if (Frame < 0)

@@ -353,6 +353,9 @@ class FlxRect implements IFlxPooled
 		if (newRect == null)
 			newRect = FlxRect.get();
 
+		if (innerOffset == null)
+			innerOffset = FlxPoint.weak(0, 0);
+
 		degrees = degrees % 360;
 		if (degrees == 0)
 		{

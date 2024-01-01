@@ -1603,7 +1603,7 @@ class FlxSprite extends FlxObject
 	function set_clipRect(rect:FlxRect):FlxRect
 	{
 		if (rect != null)
-			clipRect = rect.round();
+			clipRect = rect; // can you not .round() this please
 		else
 			clipRect = null;
 

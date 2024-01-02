@@ -207,7 +207,7 @@ class FlxTypedSpriteGroup<T:FlxSprite> extends FlxSprite
 	{
 		group.update(elapsed);
 
-		if (moves)
+		if (moves && (velocity.x != 0 || velocity.y != 0 || angularVelocity != 0))
 			updateMotion(elapsed);
 	}
 

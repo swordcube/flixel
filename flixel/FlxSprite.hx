@@ -277,10 +277,12 @@ class FlxSprite extends FlxObject
 
 	public var colorTransform(default, null):ColorTransform;
 
-	#if MOD_SUPPORT
-	public var onDraw:FlxSprite->Void;
-	public var drawOverridable:Bool = false;
-	#end
+	public var onDraw(default, set):FlxSprite->Void;
+	public function set_onDraw(drawFunc:FlxSprite->Void):FlxSprite->Void {
+		__drawOverrided = drawFunc != null;
+		return onDraw = drawFunc;
+	}
+	@:noCompletion public var __drawOverrided:Bool = false; // Avoid null checks
 
 	/**
 	 * Whether or not to use a `ColorTransform` set via `setColorTransform()`.
@@ -834,22 +836,17 @@ class FlxSprite extends FlxObject
 			loadGraphic("flixel/images/logo/default.png");
 	}
 
-	#if MOD_SUPPORT
-	@:noCompletion var __triedOnDraw:Bool = false;
-	#end
 	/**
 	 * Called by game loop, updates then blits or renders current frame of animation to the screen.
 	 */
 	override public function draw():Void
 	{
-		#if MOD_SUPPORT
-		if (drawOverridable && !__triedOnDraw && onDraw != null) {
-			__triedOnDraw = true; 
+		if (__drawOverrided) { // So cool thanks neo for advice
+			__drawOverrided = false; 
 			onDraw(this); // Hopefully this works...
-			__triedOnDraw = false;
+			__drawOverrided = true;
 			return;
 		}
-		#end
 
 		checkEmptyFrame();
 

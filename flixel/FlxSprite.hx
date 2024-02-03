@@ -279,6 +279,7 @@ class FlxSprite extends FlxObject
 
 	#if MOD_SUPPORT
 	public var onDraw:FlxSprite->Void;
+	public var drawOverridable:Bool = false;
 	#end
 
 	/**
@@ -833,18 +834,22 @@ class FlxSprite extends FlxObject
 			loadGraphic("flixel/images/logo/default.png");
 	}
 
+	#if MOD_SUPPORT
 	@:noCompletion var __triedOnDraw:Bool = false;
+	#end
 	/**
 	 * Called by game loop, updates then blits or renders current frame of animation to the screen.
 	 */
 	override public function draw():Void
 	{
-		if (!__triedOnDraw && onDraw != null) {
+		#if MOD_SUPPORT
+		if (drawOverridable && !__triedOnDraw && onDraw != null) {
 			__triedOnDraw = true; 
 			onDraw(this); // Hopefully this works...
 			__triedOnDraw = false;
 			return;
 		}
+		#end
 
 		checkEmptyFrame();
 

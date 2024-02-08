@@ -158,10 +158,9 @@ class FlxTypedGroup<T:FlxBasic> extends FlxBasic
 		}
 	}
 
-	/**
-	 * Automatically goes through and calls update on everything you added.
-	 */
-	override public function update(elapsed:Float):Void
+	// _update and _draw are so i can avoid super calls
+	// because the way they work in haxe is horribly inefficent
+	private inline function _update(elapsed:Float):Void
 	{
 		var i:Int = 0;
 		var basic:FlxBasic = null;
@@ -177,31 +176,46 @@ class FlxTypedGroup<T:FlxBasic> extends FlxBasic
 		}
 	}
 
+	private inline function _draw():Void
+	{
+		@:privateAccess {
+			var i:Int = 0;
+			var basic:FlxBasic = null;
+	
+			var oldDefaultCameras = FlxCamera._defaultCameras;
+			if (cameras != null)
+			{
+				FlxCamera._defaultCameras = cameras;
+			}
+	
+			while (i < length)
+			{
+				basic = members[i++];
+	
+				if (basic != null && basic.exists && basic.visible)
+				{
+					basic.draw();
+				}
+			}
+	
+			FlxCamera._defaultCameras = oldDefaultCameras;
+		}
+	}
+
+	/**
+	 * Automatically goes through and calls update on everything you added.
+	 */
+	override public function update(elapsed:Float):Void
+	{
+		_update(elapsed);
+	}
+
 	/**
 	 * Automatically goes through and calls render on everything you added.
 	 */
 	override public function draw():Void
 	{
-		var i:Int = 0;
-		var basic:FlxBasic = null;
-
-		var oldDefaultCameras = FlxCamera._defaultCameras;
-		if (cameras != null)
-		{
-			FlxCamera._defaultCameras = cameras;
-		}
-
-		while (i < length)
-		{
-			basic = members[i++];
-
-			if (basic != null && basic.exists && basic.visible)
-			{
-				basic.draw();
-			}
-		}
-
-		FlxCamera._defaultCameras = oldDefaultCameras;
+		_draw();
 	}
 
 	/**

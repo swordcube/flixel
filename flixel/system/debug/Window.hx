@@ -1,13 +1,13 @@
 package flixel.system.debug;
 
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.display.Sprite;
-import flash.events.Event;
-import flash.events.MouseEvent;
-import flash.geom.Point;
-import flash.geom.Rectangle;
-import flash.text.TextField;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
+import openfl.display.Sprite;
+import openfl.events.Event;
+import openfl.events.MouseEvent;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
+import openfl.text.TextField;
 import flixel.FlxG;
 import flixel.math.FlxMath;
 import flixel.system.debug.FlxDebugger.GraphicCloseButton;
@@ -293,18 +293,18 @@ class Window extends Sprite
 		}
 		visible = FlxG.save.data.windowSettings[_id];
 	}
-	
+
 	function initWindowsSave()
 	{
 		var maxWindows = 10; // arbitrary
 		FlxG.save.data.windowSettings = [for (_ in 0...maxWindows) true];
 	}
-	
+
 	function saveWindowVisibility()
 	{
 		if (FlxG.save.data.windowSettings == null)
 			initWindowsSave();
-		
+
 		FlxG.save.data.windowSettings[_id] = visible;
 		FlxG.save.flush();
 	}

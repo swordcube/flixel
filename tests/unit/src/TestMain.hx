@@ -1,6 +1,6 @@
 package;
 
-import flash.Lib;
+import openfl.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
 import massive.munit.TestRunner;

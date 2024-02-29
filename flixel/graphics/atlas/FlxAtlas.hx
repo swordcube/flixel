@@ -1,7 +1,7 @@
 package flixel.graphics.atlas;
 
-import flash.display.BitmapData;
-import flash.geom.Point;
+import openfl.display.BitmapData;
+import openfl.geom.Point;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -292,8 +292,7 @@ class FlxAtlas implements IFlxDestroyable
 
 				if (firstChild.height - insertHeight > 0)
 				{
-					secondGrandChild = new FlxNode(FlxRect.get(firstChild.x, firstChild.y + insertHeight, insertWidth, firstChild.height - insertHeight),
-						this);
+					secondGrandChild = new FlxNode(FlxRect.get(firstChild.x, firstChild.y + insertHeight, insertWidth, firstChild.height - insertHeight), this);
 				}
 			}
 			else // divide vertically

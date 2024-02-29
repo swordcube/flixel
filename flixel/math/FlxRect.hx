@@ -1,6 +1,6 @@
 package flixel.math;
 
-import flash.geom.Rectangle;
+import openfl.geom.Rectangle;
 import flixel.util.FlxPool;
 import flixel.util.FlxPool.IFlxPooled;
 import flixel.util.FlxStringUtil;
@@ -379,7 +379,7 @@ class FlxRect implements IFlxPooled
 		else if (degrees < 180)
 		{
 			newRect.x = x + origin.x + cos * right - sin * bottom;
-			newRect.y = y + origin.y + sin * left  + cos * bottom;
+			newRect.y = y + origin.y + sin * left + cos * bottom;
 		}
 		else if (degrees < 270)
 		{
@@ -392,8 +392,8 @@ class FlxRect implements IFlxPooled
 			newRect.y = y + origin.y + sin * right + cos * top;
 		}
 		// temp var, in case input rect is the output rect
-		var newHeight = Math.abs(cos * height) + Math.abs(sin * width );
-		newRect.width = Math.abs(cos * width ) + Math.abs(sin * height);
+		var newHeight = Math.abs(cos * height) + Math.abs(sin * width);
+		newRect.width = Math.abs(cos * width) + Math.abs(sin * height);
 		newRect.height = newHeight;
 
 		origin.putWeak();

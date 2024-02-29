@@ -2,9 +2,9 @@ package flixel.system;
 
 import haxe.macro.Expr;
 #if !macro
-import flash.display.BitmapData;
-import flash.display.Graphics;
-import flash.media.Sound;
+import openfl.display.BitmapData;
+import openfl.display.Graphics;
+import openfl.media.Sound;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -98,14 +98,7 @@ abstract FlxJsonAsset<T>(OneOfTwo<T, String>) from T from String
 	}
 }
 
-typedef FlxShader =
-	#if (openfl_legacy || nme)
-	Dynamic;
-	#elseif FLX_DRAW_QUADS
-	flixel.graphics.tile.FlxGraphicsShader;
-	#else
-	openfl.display.Shader;
-	#end
+typedef FlxShader = #if nme Dynamic #else flixel.graphics.tile.FlxGraphicsShader #end;
 #end
 
 class FlxAssets

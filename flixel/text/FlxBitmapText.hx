@@ -1,6 +1,6 @@
 package flixel.text;
 
-import flash.display.BitmapData;
+import openfl.display.BitmapData;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -226,7 +226,7 @@ class FlxBitmapText extends FlxSprite
 			textDrawData = [];
 			borderDrawData = [];
 		}
-		
+
 		this.text = text;
 	}
 
@@ -270,7 +270,7 @@ class FlxBitmapText extends FlxSprite
 			super.drawFrame(Force);
 		}
 	}
-	
+
 	override function updateHitbox()
 	{
 		checkPendingChanges(true);

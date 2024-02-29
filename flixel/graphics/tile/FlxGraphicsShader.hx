@@ -1,6 +1,5 @@
 package flixel.graphics.tile;
 
-#if FLX_DRAW_QUADS
 import openfl.display.GraphicsShader;
 
 class FlxGraphicsShader extends GraphicsShader
@@ -99,4 +98,3 @@ void main(void)
 		data._camSize.value = [x, y, width, height];
 	}
 }
-#end

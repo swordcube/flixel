@@ -1,11 +1,11 @@
 package flixel;
 
 import flixel.graphics.tile.FlxGraphicsShader;
-import flash.display.BitmapData;
-import flash.display.BlendMode;
-import flash.geom.ColorTransform;
-import flash.geom.Point;
-import flash.geom.Rectangle;
+import openfl.display.BitmapData;
+import openfl.display.BlendMode;
+import openfl.geom.ColorTransform;
+import openfl.geom.Point;
+import openfl.geom.Rectangle;
 import flixel.FlxBasic.IFlxBasic;
 import flixel.animation.FlxAnimationController;
 import flixel.graphics.FlxGraphic;
@@ -278,10 +278,13 @@ class FlxSprite extends FlxObject
 	public var colorTransform(default, null):ColorTransform;
 
 	public var onDraw(default, set):FlxSprite->Void;
-	public function set_onDraw(drawFunc:FlxSprite->Void):FlxSprite->Void {
+
+	public function set_onDraw(drawFunc:FlxSprite->Void):FlxSprite->Void
+	{
 		__drawOverrided = drawFunc != null;
 		return onDraw = drawFunc;
 	}
+
 	@:noCompletion public var __drawOverrided:Bool = false; // Avoid null checks
 
 	/**
@@ -298,13 +301,9 @@ class FlxSprite extends FlxObject
 	public var clipRect(default, set):FlxRect;
 
 	/**
-	 * GLSL shader for this sprite. Only works with OpenFL Next or WebGL.
-	 * Avoid changing it frequently as this is a costly operation.
+	 * GLSL shader for this sprite. Avoid changing it frequently as this is a costly operation.
 	 * @since 4.1.0
 	 */
-	#if openfl_legacy
-	@:noCompletion
-	#end
 	public var shader:FlxShader;
 
 	/**
@@ -841,8 +840,9 @@ class FlxSprite extends FlxObject
 	 */
 	override public function draw():Void
 	{
-		if (__drawOverrided) { // So cool thanks neo for advice
-			__drawOverrided = false; 
+		if (__drawOverrided)
+		{ // So cool thanks neo for advice
+			__drawOverrided = false;
 			onDraw(this); // Hopefully this works...
 			__drawOverrided = true;
 			return;

@@ -1,6 +1,6 @@
 package flixel.system.frontEnds;
 
-import flash.geom.Rectangle;
+import openfl.geom.Rectangle;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.util.FlxAxes;
@@ -20,10 +20,10 @@ class CameraFrontEnd
 	 * Do not edit directly, use `add` and `remove` instead.
 	 */
 	public var list(default, null):Array<FlxCamera> = [];
-	
+
 	/**
-	 * Array listing all cameras marked as default draw targets, `FlxBasics` with no
-	 *`cameras` set will render to them.
+		* Array listing all cameras marked as default draw targets, `FlxBasics` with no
+		*`cameras` set will render to them.
 	 */
 	var defaults:Array<FlxCamera> = [];
 
@@ -65,11 +65,11 @@ class CameraFrontEnd
 	public function add<T:FlxCamera>(NewCamera:T, DefaultDrawTarget:Bool = true):T
 	{
 		FlxG.game.addChildAt(NewCamera.flashSprite, FlxG.game.getChildIndex(FlxG.game._inputContainer));
-		
+
 		list.push(NewCamera);
 		if (DefaultDrawTarget)
 			defaults.push(NewCamera);
-		
+
 		NewCamera.ID = list.length - 1;
 		cameraAdded.dispatch(NewCamera);
 		return NewCamera;
@@ -109,7 +109,7 @@ class CameraFrontEnd
 
 		cameraRemoved.dispatch(Camera);
 	}
-	
+
 	/**
 	 * If set to true, the camera is listed as a default draw target, meaning `FlxBasics`
 	 * render to the specified camera if the `FlxBasic` has a null `cameras` value.
@@ -126,9 +126,9 @@ class CameraFrontEnd
 			FlxG.log.warn("FlxG.cameras.setDefaultDrawTarget(): The specified camera is not a part of the game.");
 			return;
 		}
-		
+
 		var index = defaults.indexOf(camera);
-		
+
 		if (value && index == -1)
 			defaults.push(camera);
 		else if (!value)

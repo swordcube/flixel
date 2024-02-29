@@ -1,6 +1,6 @@
 package flixel.input;
 
-import flash.events.KeyboardEvent;
+import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.keyboard.FlxKey;
@@ -151,11 +151,11 @@ class FlxKeyManager<Key:Int, KeyList:FlxBaseKeyList> implements IFlxInputManager
 	public function checkStatus(KeyCode:Key, Status:FlxInputState):Bool
 	{
 		/*
-		Note: switch(KeyCode) { case ANY: } causes seg faults with
-		hashlink on linux. This should use ifs, until it is fixed.
-		See: https://github.com/HaxeFlixel/flixel/issues/2318
-		*/
-		
+			Note: switch(KeyCode) { case ANY: } causes seg faults with
+			hashlink on linux. This should use ifs, until it is fixed.
+			See: https://github.com/HaxeFlixel/flixel/issues/2318
+		 */
+
 		if (KeyCode == FlxKey.ANY)
 		{
 			return switch (Status)
@@ -166,7 +166,7 @@ class FlxKeyManager<Key:Int, KeyList:FlxBaseKeyList> implements IFlxInputManager
 				case JUST_RELEASED: justReleased.ANY;
 			}
 		}
-		
+
 		if (KeyCode == FlxKey.NONE)
 		{
 			return switch (Status)
@@ -177,12 +177,12 @@ class FlxKeyManager<Key:Int, KeyList:FlxBaseKeyList> implements IFlxInputManager
 				case JUST_RELEASED: justReleased.NONE;
 			}
 		}
-		
+
 		if (_keyListMap.exists(KeyCode))
 		{
 			return checkStatusUnsafe(KeyCode, Status);
 		}
-		
+
 		#if debug
 		throw 'Invalid key code: $KeyCode.';
 		#end

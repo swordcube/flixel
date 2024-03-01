@@ -1,16 +1,16 @@
 package flixel;
 
-import openfl.Lib;
-import openfl.display.Sprite;
-import openfl.display.StageAlign;
-import openfl.display.StageScaleMode;
-import openfl.events.Event;
 import flixel.graphics.tile.FlxDrawBaseItem;
 import flixel.system.FlxSplash;
 import flixel.util.FlxArrayUtil;
 import openfl.filters.ShaderFilter;
 import flixel.system.FlxAssets.FlxShader;
 import openfl.Assets;
+import openfl.Lib;
+import openfl.display.Sprite;
+import openfl.display.StageAlign;
+import openfl.display.StageScaleMode;
+import openfl.events.Event;
 import openfl.filters.BitmapFilter;
 import flixel.util.FlxDestroyUtil;
 #if desktop

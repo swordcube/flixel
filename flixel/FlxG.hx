@@ -7,6 +7,7 @@ import openfl.display.Stage;
 import openfl.display.StageDisplayState;
 import openfl.net.URLRequest;
 #end
+  
 import flixel.effects.postprocess.PostProcess;
 import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
@@ -347,16 +348,12 @@ class FlxG
 	public static function resizeWindow(Width:Int, Height:Int):Void
 	{
 		#if desktop
-		#if openfl_legacy
-		stage.resize(Width, Height);
-		#else
 		#if air
 		var window = flash.desktop.NativeApplication.nativeApplication.activeWindow;
 		window.width = Width;
 		window.height = Height;
 		#else
 		Lib.application.window.resize(Width, Height);
-		#end
 		#end
 		#end
 	}

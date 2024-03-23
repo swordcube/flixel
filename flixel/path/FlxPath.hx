@@ -238,8 +238,7 @@ class FlxPath implements IFlxDestroyable
 	 * @param nodesAsReference   To pass the input array as reference (true) or to copy the points (false). Default is false.
 	 * @return This path object.
 	 */
-	public function start(?nodes:Array<FlxPoint>, speed = 100.0, mode = FlxPathType.FORWARD, autoRotate = false,
-			nodesAsReference:Bool = false):FlxPath
+	public function start(?nodes:Array<FlxPoint>, speed = 100.0, mode = FlxPathType.FORWARD, autoRotate = false, nodesAsReference:Bool = false):FlxPath
 	{
 		if (nodes != null)
 		{
@@ -892,12 +891,12 @@ enum abstract FlxPathType(Int) from Int to Int
 @:structInit
 class FlxPathDrawData
 {
-	public var lineColor  = FlxColor.WHITE;
-	public var nodeColor  = FlxColor.WHITE;
+	public var lineColor = FlxColor.WHITE;
+	public var nodeColor = FlxColor.WHITE;
 	public var startColor = FlxColor.GREEN;
-	public var endColor   = FlxColor.RED;
-	public var lineSize   = 1;
-	public var nodeSize   = 3;
-	public var startSize  = 5;
-	public var endSize    = 5;
+	public var endColor = FlxColor.RED;
+	public var lineSize = 1;
+	public var nodeSize = 3;
+	public var startSize = 5;
+	public var endSize = 5;
 }

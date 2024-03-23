@@ -123,7 +123,7 @@ class FlxSpriteUtil
 		}
 		return sprite;
 	}
-	
+
 	/**
 	 * Makes sure a FlxSprite doesn't leave the specified area - most common use case is to call this every frame in update().
 	 * If you call this without specifying an area, the game area (FlxG.width / height as max) will be used. Takes the graphic size into account.
@@ -168,29 +168,26 @@ class FlxSpriteUtil
 	{
 		if (camera == null)
 			camera = FlxG.camera;
-		
+
 		var spriteBounds = sprite.getScreenBounds(camera);
-		var offset = FlxPoint.get(
-			sprite.x - spriteBounds.x - camera.scroll.x,
-			sprite.y - spriteBounds.y - camera.scroll.y
-		);
-		
+		var offset = FlxPoint.get(sprite.x - spriteBounds.x - camera.scroll.x, sprite.y - spriteBounds.y - camera.scroll.y);
+
 		if (edges.has(LEFT) && spriteBounds.right < camera.viewLeft)
 			sprite.x = camera.viewRight + offset.x;
 		else if (edges.has(RIGHT) && spriteBounds.left > camera.viewRight)
 			sprite.x = camera.viewLeft + offset.x - spriteBounds.width;
-		
+
 		if (edges.has(UP) && spriteBounds.bottom < camera.viewTop)
 			sprite.y = camera.viewBottom + offset.y;
 		else if (edges.has(DOWN) && spriteBounds.top > camera.viewBottom)
 			sprite.y = camera.viewTop + offset.y - spriteBounds.height;
-		
+
 		spriteBounds.put();
 		offset.put();
-		
+
 		return sprite;
 	}
-	
+
 	/**
 	 * Checks the sprite's screen bounds and keeps it entirely within the camera.
 	 *
@@ -204,29 +201,26 @@ class FlxSpriteUtil
 	{
 		if (camera == null)
 			camera = FlxG.camera;
-		
+
 		var spriteBounds = sprite.getScreenBounds(camera);
-		var offset = FlxPoint.get(
-			sprite.x - spriteBounds.x - camera.scroll.x,
-			sprite.y - spriteBounds.y - camera.scroll.y
-		);
-		
+		var offset = FlxPoint.get(sprite.x - spriteBounds.x - camera.scroll.x, sprite.y - spriteBounds.y - camera.scroll.y);
+
 		if (edges.has(LEFT) && spriteBounds.left < camera.viewLeft)
 			sprite.x = camera.viewLeft + offset.x;
 		else if (edges.has(RIGHT) && spriteBounds.right > camera.viewRight)
 			sprite.x = camera.viewRight + offset.x - spriteBounds.width;
-		
+
 		if (edges.has(UP) && spriteBounds.top < camera.viewTop)
 			sprite.y = camera.viewTop + offset.y;
 		else if (edges.has(DOWN) && spriteBounds.bottom > camera.viewBottom)
 			sprite.y = camera.viewBottom + offset.y - spriteBounds.height;
-		
+
 		spriteBounds.put();
 		offset.put();
-		
+
 		return sprite;
 	}
-	
+
 	/**
 	 * Aligns a set of FlxObjects so there is equal spacing between them
 	 *

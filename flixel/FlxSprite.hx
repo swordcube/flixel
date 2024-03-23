@@ -277,6 +277,16 @@ class FlxSprite extends FlxObject
 
 	public var colorTransform(default, null):ColorTransform;
 
+	public var onDraw(default, set):FlxSprite->Void;
+
+	public function set_onDraw(drawFunc:FlxSprite->Void):FlxSprite->Void
+	{
+		__drawOverrided = drawFunc != null;
+		return onDraw = drawFunc;
+	}
+
+	@:noCompletion public var __drawOverrided:Bool = false; // Avoid null checks
+
 	/**
 	 * Whether or not to use a `ColorTransform` set via `setColorTransform()`.
 	 */
@@ -291,13 +301,9 @@ class FlxSprite extends FlxObject
 	public var clipRect(default, set):FlxRect;
 
 	/**
-	 * GLSL shader for this sprite. Only works with OpenFL Next or WebGL.
-	 * Avoid changing it frequently as this is a costly operation.
+	 * GLSL shader for this sprite. Avoid changing it frequently as this is a costly operation.
 	 * @since 4.1.0
 	 */
-	#if openfl_legacy
-	@:noCompletion
-	#end
 	public var shader:FlxShader;
 
 	/**
@@ -841,6 +847,14 @@ class FlxSprite extends FlxObject
 	@:noCompletion
 	inline function _draw():Void
 	{
+		if (__drawOverrided)
+		{ // So cool thanks neo for advice
+			__drawOverrided = false;
+			onDraw(this); // Hopefully this works...
+			__drawOverrided = true;
+			return;
+		}
+
 		checkEmptyFrame();
 
 		if (alpha == 0 || _frame.type == FlxFrameType.EMPTY)

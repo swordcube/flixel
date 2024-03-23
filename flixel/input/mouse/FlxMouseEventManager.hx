@@ -58,7 +58,7 @@ class FlxMouseEventManager extends FlxBasic
 	 * @since 4.4.0
 	 */
 	public var maxDoubleClickDelay:Int = 500;
-	
+
 	public function new()
 	{
 		super();
@@ -215,10 +215,7 @@ class FlxMouseEventManager extends FlxBasic
 
 			for (down in _downList)
 			{
-				if (down.object != null
-					&& down.object.exists
-					&& down.object.visible
-					&& get(down.object, currentOverObjects) != null)
+				if (down.object != null && down.object.exists && down.object.visible && get(down.object, currentOverObjects) != null)
 				{
 					if (down.onMouseClick != null)
 					{
@@ -278,7 +275,7 @@ class FlxMouseEventManager extends FlxBasic
 
 			_list.insert(index, cast event);
 		}
-		
+
 		return event;
 	}
 
@@ -298,8 +295,8 @@ class FlxMouseEventManager extends FlxBasic
 	 * @param   pixelPerfect    If true, the collision check will be pixel-perfect. Only works for FlxSprites.
 	 * @param   mouseButtons    The mouse buttons that can trigger callbacks. Left only by default.
 	 */
-	public function add<T:FlxObject>(object:T, ?onMouseDown:T->Void, ?onMouseUp:T->Void, ?onMouseOver:T->Void, ?onMouseOut:T->Void,
-			mouseChildren = false, mouseEnabled = true, pixelPerfect = true, ?mouseButtons:Array<FlxMouseButtonID>):T
+	public function add<T:FlxObject>(object:T, ?onMouseDown:T->Void, ?onMouseUp:T->Void, ?onMouseOver:T->Void, ?onMouseOut:T->Void, mouseChildren = false,
+			mouseEnabled = true, pixelPerfect = true, ?mouseButtons:Array<FlxMouseButtonID>):T
 	{
 		var event = new FlxMouseEvent<T>(object, onMouseDown, onMouseUp, onMouseOver, onMouseOut, mouseChildren, mouseEnabled, pixelPerfect, mouseButtons);
 		addEvent(event);

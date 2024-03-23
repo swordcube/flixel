@@ -126,7 +126,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Check to see if the right mouse button has just been pressed.
 	 */
 	public var justPressedRight(get, never):Bool;
-	
+
 	/**
 	 * Check to see if the right mouse button is currently not pressed.
 	 * @since 5.0.0
@@ -214,6 +214,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * Helper variables to see if the mouse has moved since the last update, and by how much.
 	 */
 	var _prevX:Int = 0;
+
 	var _prevY:Int = 0;
 	var _prevScreenX:Int = 0;
 	var _prevScreenY:Int = 0;

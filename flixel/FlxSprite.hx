@@ -454,9 +454,11 @@ class FlxSprite extends FlxObject
 		frameOffset = FlxDestroyUtil.put(frameOffset);
 		origin = FlxDestroyUtil.put(origin);
 		scale = FlxDestroyUtil.put(scale);
+
 		_halfSize = FlxDestroyUtil.put(_halfSize);
 		_scaledOrigin = FlxDestroyUtil.put(_scaledOrigin);
 		_scaledFrameOffset = FlxDestroyUtil.put(_scaledFrameOffset);
+		_animOffset = FlxDestroyUtil.put(_animOffset);
 
 		framePixels = FlxDestroyUtil.dispose(framePixels);
 
@@ -805,6 +807,7 @@ class FlxSprite extends FlxObject
 			_flashRect2.height = graphic.height;
 		}
 
+		_animOffset.set();
 		centerOrigin();
 
 		if (FlxG.renderBlit)
@@ -904,16 +907,15 @@ class FlxSprite extends FlxObject
 		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX() != camera.flipX, checkFlipY() != camera.flipY);
 		_matrix.translate(-origin.x, -origin.y);
 
-		var animOffset = (animation.curAnim != null) ? animation.curAnim.offset : FlxPoint.get();
 		if (frameOffsetAngle != null && frameOffsetAngle != angle)
 		{
 			var angleOff = (-angle + frameOffsetAngle) * FlxAngle.TO_RAD;
 			_matrix.rotate(-angleOff);
-			_matrix.translate(-(frameOffset.x + animOffset.x), -(frameOffset.y + animOffset.y));
+			_matrix.translate(-(frameOffset.x + _animOffset.x), -(frameOffset.y + _animOffset.y));
 			_matrix.rotate(angleOff);
 		}
 		else
-			_matrix.translate(-(frameOffset.x + animOffset.x), -(frameOffset.y + animOffset.y));
+			_matrix.translate(-(frameOffset.x + _animOffset.x), -(frameOffset.y + _animOffset.y));
 
 		_matrix.scale(scale.x, scale.y);
 
@@ -1373,6 +1375,8 @@ class FlxSprite extends FlxObject
 		return newRect.getRotatedBounds(angle, origin, newRect);
 	}
 
+	var _animOffset:FlxPoint = FlxPoint.get();
+
 	/**
 	 * Calculates the smallest globally aligned bounding box that encompasses this sprite's graphic as it
 	 * would be displayed. Honors scrollFactor, rotation, scale, offset and origin.
@@ -1389,13 +1393,11 @@ class FlxSprite extends FlxObject
 		if (camera == null)
 			camera = FlxG.camera;
 
-		var animOffset = (animation.curAnim != null) ? animation.curAnim.offset : FlxPoint.get();
-
 		newRect.setPosition(x, y);
 		if (pixelPerfectPosition)
 			newRect.floor();
 		_scaledOrigin.set(origin.x * Math.abs(scale.x), origin.y * Math.abs(scale.y));
-		_scaledFrameOffset.set((frameOffset.x + animOffset.x) * Math.abs(scale.x), (frameOffset.y + animOffset.y) * Math.abs(scale.y));
+		_scaledFrameOffset.set((frameOffset.x + _animOffset.x) * Math.abs(scale.x), (frameOffset.y + _animOffset.y) * Math.abs(scale.y));
 		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x - _scaledOrigin.x;
 		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y - _scaledOrigin.y;
 		if (isPixelPerfectRender(camera))

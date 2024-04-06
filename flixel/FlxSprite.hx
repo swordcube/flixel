@@ -828,8 +828,7 @@ class FlxSprite extends FlxObject
 	 */
 	function updateAnimation(elapsed:Float):Void
 	{
-		if(animation.curAnim != null && animation.curAnim.numFrames > 1)
-			animation.update(elapsed);
+		animation.update(elapsed);
 	}
 
 	@:noCompletion

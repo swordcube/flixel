@@ -27,7 +27,7 @@ class FlxSoundTray extends Sprite
 	public static var volumeChangeSFX:String = "flixel/sounds/beep";
 
 	/**
-		The sound that'll play when you try to increase volume when already being on the max.
+		The sound that'll play when you try to increase volume and it's already on the max.
 	**/
 	public static var volumeMaxChangeSFX:String = null;
 
@@ -50,6 +50,11 @@ class FlxSoundTray extends Sprite
 	 * "VOLUME" text.
 	 */
 	public var text:TextField = new TextField();
+
+	/**
+	 * The default text format of soundtray object's text.
+	 */
+	var _dtf:TextFormat;
 
 	/**
 	 * Because reading any data from DisplayObject is insanely expensive in hxcpp, keep track of whether we need to update it or not.
@@ -114,6 +119,26 @@ class FlxSoundTray extends Sprite
 		screenCenter();
 		addChild(background);
 
+		reloadText(false);
+		regenerateBars();
+
+		y = -height;
+		visible = false;
+	}
+
+	/**
+	 * This function regenerates the text of soundtray object.
+	 */
+	public function reloadText(checkIfNull:Bool = true, reloadDefaultTextFormat:Bool = true, displayTxt:String = "VOLUME", y:Float = 16):Void
+	{
+		if (checkIfNull && text != null)
+		{
+			removeChild(text);
+			@:privateAccess
+			text.__cleanup();
+		}
+
+		text = new TextField();
 		text.width = background.width;
 		text.height = background.height;
 		text.multiline = true;
@@ -124,23 +149,25 @@ class FlxSoundTray extends Sprite
 		text.embedFonts = true;
 		text.antiAliasType = AntiAliasType.NORMAL;
 		text.gridFitType = GridFitType.PIXEL;
-		#else
 		#end
-		var dtf:TextFormat = new TextFormat(FlxAssets.FONT_DEFAULT, 10, 0xffffff);
-		dtf.align = TextFormatAlign.CENTER;
-		text.defaultTextFormat = dtf;
+		if (reloadDefaultTextFormat) reloadDtf();
+		text.defaultTextFormat = _dtf;
 		addChild(text);
-		text.text = "VOLUME";
-		text.y = 16;
-
-		regenerateBars();
-
-		y = -height;
-		visible = false;
+		text.text = displayTxt;
+		text.y = y;
 	}
 
 	/**
-	 * This function regenerates the bars of soundtray object according to `barsAmount`.
+	 * This function reloads the default text format of soundtray object's text.
+	 */
+	public function reloadDtf():Void
+	{
+		_dtf = new TextFormat(FlxAssets.FONT_DEFAULT, 10, 0xffffff);
+		_dtf.align = TextFormatAlign.CENTER;
+	}
+
+	/**
+	 * This function regenerates the bars of the soundtray object according to `barsAmount`.
 	 */
 	public function regenerateBars():Void
 	{

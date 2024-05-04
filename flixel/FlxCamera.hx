@@ -1224,7 +1224,7 @@ class FlxCamera extends FlxBasic
 		updateFlashSpritePosition();
 		updateShake(elapsed);
 
-		if (filtersEnabled && flashSprite.filters != null && _scrollRect != null)
+		if (filtersEnabled && flashSprite.filters != null)
 		{
 			// var rect = _scrollRect.scrollRect;
 

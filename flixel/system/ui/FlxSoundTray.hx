@@ -97,12 +97,35 @@ class FlxSoundTray extends Sprite
 	/**
 	 * How wide the sound tray background is.
 	 */
-	var _width(default, set):Int = 80;
+	@:isVar var _width(get, set):Int = 80;
+
+	@:dox(hide) public function get__width():Int
+	{
+		if (background != null) _width = Math.round(background.width);  // Must round this to an Int to keep backwards compatibility  - Nex
+		return _width;
+	}
 
 	@:dox(hide) public function set__width(value:Int):Int
 	{
 		if (background != null) background.width = value;
 		return _width = value;
+	}
+
+	/**
+	 * How long the sound tray background is.
+	 */
+	@:isVar var _height(get, set):Int = 30;
+
+	@:dox(hide) public function get__height():Int
+	{
+		if (background != null) _height = Math.round(background.height);
+		return _height;
+	}
+
+	@:dox(hide) public function set__height(value:Int):Int
+	{
+		if (background != null) background.height = value;
+		return _height = value;
 	}
 
 	var _defaultScale:Float = 2.0;
@@ -115,7 +138,7 @@ class FlxSoundTray extends Sprite
 	{
 		super();
 
-		background = new Bitmap(new BitmapData(_width, 30, true, 0x7F000000));
+		background = new Bitmap(new BitmapData(_width, _height, true, 0x7F000000));
 		screenCenter();
 		addChild(background);
 
@@ -139,8 +162,8 @@ class FlxSoundTray extends Sprite
 		}
 
 		text = new TextField();
-		text.width = background.width;
-		text.height = background.height;
+		text.width = _width;
+		text.height = _height;
 		text.multiline = true;
 		text.wordWrap = true;
 		text.selectable = false;

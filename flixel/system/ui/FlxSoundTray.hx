@@ -189,12 +189,8 @@ class FlxSoundTray extends Sprite
 		_dtf.align = TextFormatAlign.CENTER;
 	}
 
-	/**
-	 * This function regenerates the bars of the soundtray object according to `barsAmount`.
-	 */
-	public function regenerateBars():Void
+	public function regenerateBarsArray():Void
 	{
-		var tmp:Bitmap;
 		if (_bars == null) _bars = new Array();
 		else for (bar in _bars)
 		{
@@ -202,10 +198,18 @@ class FlxSoundTray extends Sprite
 			removeChild(bar);
 			bar.bitmapData.dispose();
 		}
+	}
 
+	/**
+	 * This function regenerates the bars of the soundtray object according to `barsAmount`.
+	 */
+	public function regenerateBars():Void
+	{
+		var tmp:Bitmap;
 		var bx:Int = _bx;
 		var by:Int = _by;
 
+		regenerateBarsArray();
 		for (i in 0...barsAmount)
 		{
 			tmp = new Bitmap(new BitmapData(4, i + 1, false, FlxColor.WHITE));
@@ -269,14 +273,7 @@ class FlxSoundTray extends Sprite
 
 		for (i in 0..._bars.length)
 		{
-			if (i < globalVolume)
-			{
-				_bars[i].alpha = 1;
-			}
-			else
-			{
-				_bars[i].alpha = 0.5;
-			}
+			if(_bars[i] != null) _bars[i].alpha = i < globalVolume ? 1 : 0.5;
 		}
 	}
 

@@ -207,13 +207,21 @@ class FlxState extends FlxGroup
 	 * This method is called after the game loses focus.
 	 * Can be useful for third party libraries, such as tweening engines.
 	 */
-	public function onFocusLost():Void {}
+	public function onFocusLost():Void
+	{
+		if (subState != null)
+			subState.onFocusLost();
+	}
 
 	/**
 	 * This method is called after the game receives focus.
 	 * Can be useful for third party libraries, such as tweening engines.
 	 */
-	public function onFocus():Void {}
+	public function onFocus():Void
+	{
+		if (subState != null)
+			subState.onFocus();
+	}
 
 	/**
 	 * This function is called whenever the window size has been changed.
@@ -221,7 +229,11 @@ class FlxState extends FlxGroup
 	 * @param   Width    The new window width
 	 * @param   Height   The new window Height
 	 */
-	public function onResize(Width:Int, Height:Int):Void {}
+	public function onResize(Width:Int, Height:Int):Void
+	{
+		if (subState != null)
+			subState.onResize(Width, Height);
+	}
 
 	@:allow(flixel.FlxGame)
 	function tryUpdate(elapsed:Float):Void

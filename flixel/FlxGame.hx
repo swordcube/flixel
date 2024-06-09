@@ -80,7 +80,7 @@ class FlxGame extends Sprite
 	/**
 	 * Time in milliseconds that has passed (amount of "ticks" passed) since the game has started.
 	 */
-	public var ticks(default, null):Int = 0;
+	public var ticks(default, null):Float = 0;
 
 	/**
 	 * Enables or disables the filters set via `setFilters()`.
@@ -106,13 +106,13 @@ class FlxGame extends Sprite
 	/**
 	 * Total number of milliseconds elapsed since game start.
 	 */
-	var _total:Int = 0;
+	var _total:Float = 0;
 
 	/**
 	 * Time stamp of game startup. Needed on JS where `Lib.getTimer()`
 	 * returns time stamp of current date, not the time passed since app start.
 	 */
-	var _startTime:Int = 0;
+	var _startTime:Float = 0;
 
 	/**
 	 * Total number of milliseconds elapsed since last update loop.
@@ -354,7 +354,7 @@ class FlxGame extends Sprite
 
 		removeEventListener(Event.ADDED_TO_STAGE, create);
 
-		_startTime = getTimer();
+		_startTime = Sys.time();
 		_total = getTicks();
 
 		#if desktop
@@ -936,12 +936,6 @@ class FlxGame extends Sprite
 
 	inline function getTicks()
 	{
-		return getTimer() - _startTime;
-	}
-
-	dynamic function getTimer():Int
-	{
-		// expensive, only call if necessary
-		return Lib.getTimer();
+		return (Sys.time() - _startTime) * 1000.0;
 	}
 }

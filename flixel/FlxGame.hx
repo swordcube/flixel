@@ -936,6 +936,12 @@ class FlxGame extends Sprite
 
 	inline function getTicks()
 	{
-		return (Sys.time() - _startTime) * 1000.0;
+		return (getTimer() - _startTime) * 1000.0;
+	}
+
+	dynamic function getTimer():Float
+	{
+		// expensive, only call if necessary
+		return Sys.time();
 	}
 }

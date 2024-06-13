@@ -1,5 +1,7 @@
 package flixel;
 
+import haxe.Timer;
+
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.display.StageAlign;
@@ -942,6 +944,6 @@ class FlxGame extends Sprite
 	dynamic function getTimer():Float
 	{
 		// expensive, only call if necessary
-		return Sys.time();
+		return Timer.stamp();
 	}
 }

@@ -386,7 +386,7 @@ class FlxBitmapText extends FlxSprite
 				clippedFrameRect = FlxRect.get(0, 0, frameWidth, frameHeight);
 			}
 
-			for (camera in cameras)
+			for (camera in getCamerasLegacy())
 			{
 				if (!camera.visible || !camera.exists || !isOnScreen(camera))
 				{

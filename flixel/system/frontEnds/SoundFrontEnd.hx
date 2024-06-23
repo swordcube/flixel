@@ -366,7 +366,7 @@ class SoundFrontEnd
 		#if FLX_SOUND_TRAY
 		if (FlxG.game.soundTray != null && soundTrayEnabled)
 		{
-			FlxG.game.soundTray.show();
+			FlxG.game.soundTray.show(up);
 		}
 		#end
 	}

@@ -230,14 +230,13 @@ class Stats extends Window
 
 		var elapsed:Float = time - _lastTime;
 
-		if (elapsed > UPDATE_DELAY)
+		if (Math.abs(elapsed) > UPDATE_DELAY)
 		{
 			elapsed = UPDATE_DELAY;
 		}
 		_lastTime = time;
 
 		_updateTimer += elapsed;
-
 		_frameCount++;
 
 		if (_updateTimer > UPDATE_DELAY)
@@ -291,7 +290,7 @@ class Stats extends Window
 				_drawCallsMarker = 0;
 			}
 
-			_updateTimer -= UPDATE_DELAY;
+			_updateTimer = 0;
 		}
 	}
 

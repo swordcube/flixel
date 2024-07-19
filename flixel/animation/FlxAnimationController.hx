@@ -582,9 +582,6 @@ class FlxAnimationController implements IFlxDestroyable
 		_curAnim = _animations.get(AnimName);
 		_curAnim.play(Force, Reversed, Frame);
 
-		@:privateAccess
-		_sprite._animOffset.copyFrom(_curAnim.offset);
-
 		if (oldFlipX != _curAnim.flipX || oldFlipY != _curAnim.flipY)
 		{
 			_sprite.dirty = true;

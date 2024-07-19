@@ -2,6 +2,7 @@ package flixel.animation;
 
 import flixel.FlxG;
 import flixel.math.FlxPoint;
+import flixel.util.FlxDestroyUtil;
 
 /**
  * Just a helper structure for the `FlxSprite` animation system.
@@ -121,8 +122,7 @@ class FlxAnimation extends FlxBaseAnimation
 	{
 		frames = null;
 		name = null;
-		offset.put();
-		offset = null;
+		offset = FlxDestroyUtil.put(offset);
 		super.destroy();
 	}
 

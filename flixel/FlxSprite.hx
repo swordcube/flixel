@@ -458,7 +458,6 @@ class FlxSprite extends FlxObject
 		_halfSize = FlxDestroyUtil.put(_halfSize);
 		_scaledOrigin = FlxDestroyUtil.put(_scaledOrigin);
 		_scaledFrameOffset = FlxDestroyUtil.put(_scaledFrameOffset);
-		_animOffset = FlxDestroyUtil.put(_animOffset);
 
 		framePixels = FlxDestroyUtil.dispose(framePixels);
 
@@ -806,8 +805,6 @@ class FlxSprite extends FlxObject
 			_flashRect2.width = graphic.width;
 			_flashRect2.height = graphic.height;
 		}
-
-		_animOffset.set();
 		centerOrigin();
 
 		if (FlxG.renderBlit)
@@ -906,6 +903,7 @@ class FlxSprite extends FlxObject
 		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX() != camera.flipX, checkFlipY() != camera.flipY);
 		_matrix.translate(-origin.x, -origin.y);
 
+		var _animOffset:FlxPoint = animation.curAnim?.offset ?? FlxPoint.weak();
 		if (frameOffsetAngle != null && frameOffsetAngle != angle)
 		{
 			var angleOff = (-angle + frameOffsetAngle) * FlxAngle.TO_RAD;
@@ -939,6 +937,7 @@ class FlxSprite extends FlxObject
 		doAdditionalMatrixStuff(_matrix, camera);
 
 		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shaderEnabled ? shader : null);
+		_animOffset.putWeak();
 	}
 
 	/**
@@ -1374,8 +1373,6 @@ class FlxSprite extends FlxObject
 		return newRect.getRotatedBounds(angle, origin, newRect);
 	}
 
-	var _animOffset:FlxPoint = FlxPoint.get();
-
 	/**
 	 * Calculates the smallest globally aligned bounding box that encompasses this sprite's graphic as it
 	 * would be displayed. Honors scrollFactor, rotation, scale, offset and origin.
@@ -1392,16 +1389,24 @@ class FlxSprite extends FlxObject
 		if (camera == null)
 			camera = FlxG.camera;
 
+		var _animOffset:FlxPoint = animation.curAnim?.offset ?? FlxPoint.weak();
+
 		newRect.setPosition(x, y);
 		if (pixelPerfectPosition)
 			newRect.floor();
+
 		_scaledOrigin.set(origin.x * Math.abs(scale.x), origin.y * Math.abs(scale.y));
 		_scaledFrameOffset.set((frameOffset.x + _animOffset.x) * Math.abs(scale.x), (frameOffset.y + _animOffset.y) * Math.abs(scale.y));
+		
 		newRect.x += -Std.int(camera.scroll.x * scrollFactor.x) - offset.x + origin.x - _scaledOrigin.x;
 		newRect.y += -Std.int(camera.scroll.y * scrollFactor.y) - offset.y + origin.y - _scaledOrigin.y;
+		
 		if (isPixelPerfectRender(camera))
 			newRect.floor();
+
+		_animOffset.putWeak();
 		newRect.setSize((frameWidth * Math.abs(scale.x)) - frameOffset.x, (frameHeight * Math.abs(scale.y)) - frameOffset.y);
+		
 		return newRect.getRotatedBounds(angle, _scaledOrigin, newRect, _scaledFrameOffset);
 	}
 

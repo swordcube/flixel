@@ -110,7 +110,8 @@ class FlxAnimationController implements IFlxDestroyable
 
 		for (anim in controller._animations)
 		{
-			add(anim.name, anim.frames, anim.frameRate, anim.looped, anim.flipX, anim.flipY);
+			final a:FlxAnimation = add(anim.name, anim.frames, anim.frameRate, anim.looped, anim.flipX, anim.flipY);
+			a.offset.copyFrom(anim.offset);
 		}
 
 		if (controller._prerotated != null)
@@ -194,12 +195,12 @@ class FlxAnimationController implements IFlxDestroyable
 	 * @param   flipX       Whether the frames should be flipped horizontally.
 	 * @param   flipY       Whether the frames should be flipped vertically.
 	 */
-	public function add(name:String, frames:Array<Int>, frameRate = 30.0, looped = true, flipX = false, flipY = false):Void
+	public function add(name:String, frames:Array<Int>, frameRate = 30.0, looped = true, flipX = false, flipY = false):FlxAnimation
 	{
 		if (numFrames == 0)
 		{
 			FlxG.log.warn('Could not create animation: "$name", this sprite has no frames');
-			return;
+			return null;
 		}
 
 		// Check _animations frames
@@ -230,9 +231,13 @@ class FlxAnimationController implements IFlxDestroyable
 
 			if (hasInvalidFrames)
 				FlxG.log.warn('Could not add frames above ${numFrames - 1} to animation: "$name"');
+		
+			return anim;
 		}
 		else
 			FlxG.log.warn('Could not create animation: "$name", no valid frames were given');
+
+		return null;
 	}
 
 	/**

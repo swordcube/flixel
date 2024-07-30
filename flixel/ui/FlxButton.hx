@@ -3,6 +3,7 @@ package flixel.ui;
 import openfl.events.MouseEvent;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxCamera;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.atlas.FlxNode;
 import flixel.graphics.frames.FlxTileFrames;
@@ -404,7 +405,8 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 	{
 		var overlap = false;
 		#if FLX_MOUSE
-		for (camera in getCameras())
+		final cameras:Array<FlxCamera> = getCameras();
+		for (camera in cameras)
 		{
 			for (buttonID in mouseButtons)
 			{

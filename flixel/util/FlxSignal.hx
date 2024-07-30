@@ -186,12 +186,15 @@ class FlxBaseSignal<T> implements IFlxSignal<T>
 
 	function getHandler(listener:T):FlxSignalHandler<T>
 	{
-		for (handler in handlers)
+		if (handlers != null)
 		{
-			if (#if (neko || hl) // simply comparing the functions doesn't do the trick on these targets
-				Reflect.compareMethods(handler.listener, listener) #else handler.listener == listener #end)
+			for (handler in handlers)
 			{
-				return handler; // Listener was already registered.
+				if (#if (neko || hl) // simply comparing the functions doesn't do the trick on these targets
+					Reflect.compareMethods(handler.listener, listener) #else handler.listener == listener #end)
+				{
+					return handler; // Listener was already registered.
+				}
 			}
 		}
 		return null; // Listener not yet registered.

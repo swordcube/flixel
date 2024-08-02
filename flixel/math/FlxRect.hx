@@ -360,6 +360,7 @@ class FlxRect implements IFlxPooled
 		if (degrees == 0)
 		{
 			origin.putWeak();
+			innerOffset.putWeak();
 			return newRect.set(x, y, width, height);
 		}
 
@@ -400,6 +401,7 @@ class FlxRect implements IFlxPooled
 		newRect.height = newHeight;
 
 		origin.putWeak();
+		innerOffset.putWeak();
 		return newRect;
 	}
 

@@ -57,7 +57,7 @@ class FlxBar extends FlxSprite
 	/**
 	 * The percentage of how full the bar is (a value between 0 and 100)
 	 */
-	public var floorPercent(get, null):Int;
+	public var floorPercent(get, never):Int;
 
 	/**
 	 * The current value - must always be between min and max

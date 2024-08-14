@@ -1,5 +1,6 @@
 package flixel;
 
+import flixel.FlxTypes;
 import flixel.graphics.tile.FlxGraphicsShader;
 import openfl.display.BitmapData;
 import openfl.display.BlendMode;
@@ -324,9 +325,9 @@ class FlxSprite extends FlxObject
 	var _frameGraphic:FlxGraphic;
 
 	@:noCompletion
-	var _facingHorizontalMult:Int = 1;
+	var _facingHorizontalMult:ByteInt = 1;
 	@:noCompletion
-	var _facingVerticalMult:Int = 1;
+	var _facingVerticalMult:ByteInt = 1;
 
 	/**
 	 * Internal, reused frequently during drawing and animating.

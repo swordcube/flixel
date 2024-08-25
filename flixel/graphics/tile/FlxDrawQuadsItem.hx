@@ -57,24 +57,36 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 	{
 		var rect = frame.frame;
 
-		var len = rects.length;
-		rects.length += 4;
-		rects[len++] = rect.x;
-		rects[len++] = rect.y;
-		rects[len++] = rect.width;
-		rects[len++] = rect.height;
+		/*var len = rects.length;
+			rects.length += 4;
+			rects[len++] = rect.x;
+			rects[len++] = rect.y;
+			rects[len++] = rect.width;
+			rects[len++] = rect.height;
 
-		len = transforms.length;
-		transforms.length += 6;
-		transforms[len++] = matrix.a;
-		transforms[len++] = matrix.b;
-		transforms[len++] = matrix.c;
-		transforms[len++] = matrix.d;
-		transforms[len++] = matrix.tx;
-		transforms[len++] = matrix.ty;
+			len = transforms.length;
+			transforms.length += 6;
+			transforms[len++] = matrix.a;
+			transforms[len++] = matrix.b;
+			transforms[len++] = matrix.c;
+			transforms[len++] = matrix.d;
+			transforms[len++] = matrix.tx;
+			transforms[len++] = matrix.ty; */
+
+		rects.push(rect.x);
+		rects.push(rect.y);
+		rects.push(rect.width);
+		rects.push(rect.height);
+
+		transforms.push(matrix.a);
+		transforms.push(matrix.b);
+		transforms.push(matrix.c);
+		transforms.push(matrix.d);
+		transforms.push(matrix.tx);
+		transforms.push(matrix.ty);
 
 		var alphaMultiplier = transform != null ? transform.alphaMultiplier : 1.0;
-		len = alphas.length;
+		var len = alphas.length;
 		alphas.resize(len + VERTICES_PER_QUAD);
 		for (i in 0...VERTICES_PER_QUAD)
 			alphas[len++] = alphaMultiplier;

@@ -89,7 +89,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 			var lenm = colorMultipliers.length;
 			colorMultipliers.resize(lenm + 4 * VERTICES_PER_QUAD);
 			var leno = colorOffsets.length;
-			colorOffsets.resize(len + 4 * VERTICES_PER_QUAD);
+			colorOffsets.resize(leno + 4 * VERTICES_PER_QUAD);
 
 			for (i in 0...VERTICES_PER_QUAD)
 			{

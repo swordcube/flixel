@@ -91,9 +91,14 @@ class FlxSound extends FlxBasic
 	public var playing(get, never):Bool;
 
 	/**
-	 * Set volume to a value between 0 and 1 to change how this sound is.
+	 * Set volume to a value between 0 and 1 to change how loud this sound is.
 	 */
 	public var volume(get, set):Float;
+
+	/**
+	 * Whether or not the sound is muted.
+	 */
+	public var muted(get, set):Bool;
 
 	#if FLX_PITCH
 	/**
@@ -168,6 +173,11 @@ class FlxSound extends FlxBasic
 	 * Internal tracker for volume.
 	 */
 	var _volume:Float;
+
+	/**
+	 * Internal tracker for whether the sound is muted or not.
+	 */
+	var _muted:Bool;
 
 	/**
 	 * Internal tracker for sound channel position.
@@ -597,7 +607,7 @@ class FlxSound extends FlxBasic
 			return;
 
 		_transform.volume = #if FLX_SOUND_SYSTEM (FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * #end
-			(group != null ? group.volume : 1) * _volume * _volumeAdjust;
+			(group != null ? group.volume : 1) * _volume * _volumeAdjust * (_muted ? 0 : 1);
 
 		if (_channel != null)
 			_channel.soundTransform = _transform;
@@ -742,6 +752,18 @@ class FlxSound extends FlxBasic
 		_volume = FlxMath.bound(Volume, 0, 1);
 		updateTransform();
 		return Volume;
+	}
+
+	inline function get_muted():Bool
+	{
+		return _muted;
+	}
+
+	function set_muted(Muted:Bool):Bool
+	{
+		_muted = Muted;
+		updateTransform();
+		return Muted;
 	}
 
 	#if FLX_PITCH

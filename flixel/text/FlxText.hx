@@ -1178,6 +1178,13 @@ class FlxText extends FlxSprite
 		_regen = false;
 		return Frames;
 	}
+
+	#if CUSTOM_CLASSES
+	override function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+	}
+	#end
 }
 
 @:allow(flixel.text.FlxText.applyFormats)

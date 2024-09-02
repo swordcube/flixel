@@ -1204,25 +1204,36 @@ class FlxCamera extends FlxBasic
 		super.destroy();
 	}
 
+	var paused:Bool = false;
+
 	/**
 	 * Updates the camera scroll as well as special effects like screen-shake or fades.
 	 */
 	override public function update(elapsed:Float):Void
 	{
 		// follow the target, if there is one
-		if (target != null && followEnabled)
+		if (target != null && followEnabled && !paused)
 		{
 			updateFollow();
 		}
 
 		updateScroll();
-		updateFlash(elapsed);
-		updateFade(elapsed);
+		if (!paused)
+		{
+			updateFlash(elapsed);
+			updateFade(elapsed);
+		}
 
 		flashSprite.filters = filtersEnabled ? _filters : null;
 
 		updateFlashSpritePosition();
-		updateShake(elapsed);
+		if (!paused)
+			updateShake(elapsed);
+		else
+		{
+			flashSprite.x += lastShakeX;
+			flashSprite.y += lastShakeY;
+		}
 
 		if (filtersEnabled && flashSprite.filters != null)
 		{
@@ -1421,8 +1432,13 @@ class FlxCamera extends FlxBasic
 			_fxFadeComplete();
 	}
 
+	var lastShakeX = 0.0;
+	var lastShakeY = 0.0;
+
 	function updateShake(elapsed:Float):Void
 	{
+		lastShakeX = 0.0;
+		lastShakeY = 0.0;
 		if (_fxShakeDuration > 0)
 		{
 			_fxShakeDuration -= elapsed;
@@ -1437,11 +1453,11 @@ class FlxCamera extends FlxBasic
 			{
 				if (_fxShakeAxes.x)
 				{
-					flashSprite.x += FlxG.random.float(-_fxShakeIntensity * width, _fxShakeIntensity * width) * zoom * FlxG.scaleMode.scale.x;
+					flashSprite.x += lastShakeX = FlxG.random.float(-_fxShakeIntensity * width, _fxShakeIntensity * width) * zoom * FlxG.scaleMode.scale.x;
 				}
 				if (_fxShakeAxes.y)
 				{
-					flashSprite.y += FlxG.random.float(-_fxShakeIntensity * height, _fxShakeIntensity * height) * zoom * FlxG.scaleMode.scale.y;
+					flashSprite.y += lastShakeY = FlxG.random.float(-_fxShakeIntensity * height, _fxShakeIntensity * height) * zoom * FlxG.scaleMode.scale.y;
 				}
 			}
 		}

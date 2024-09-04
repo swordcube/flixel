@@ -1,5 +1,5 @@
 {
-	"name": "flixel-nova",
+	"name": "flixel",
 	"url" : "https://github.com/swordcube/flixel",
 	"license": "MIT",
 	"tags": ["game", "openfl", "flash", "html5", "neko", "cpp", "android", "ios", "cross"],

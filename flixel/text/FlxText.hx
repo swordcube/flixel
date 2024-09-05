@@ -1034,9 +1034,12 @@ class FlxText extends FlxSprite
 				// (do one lower-right offset draw call)
 				applyFormats(_formatAdjusted, true);
 
+				var graphic:BitmapData = _hasBorderAlpha ? _borderPixels : graphic.bitmap;
 				for (i in 0...iterations)
 				{
-					copyTextWithOffset(delta, delta);
+					_matrix.translate(delta, delta); // upper-left
+					drawTextFieldTo(graphic);
+					// copyTextWithOffset(delta, delta);
 				}
 
 				_matrix.translate(-shadowOffset.x * borderSize, -shadowOffset.y * borderSize);
@@ -1047,16 +1050,25 @@ class FlxText extends FlxSprite
 				applyFormats(_formatAdjusted, true);
 
 				var curDelta:Float = delta;
+				var graphic:BitmapData = _hasBorderAlpha ? _borderPixels : graphic.bitmap;
 				for (i in 0...iterations)
 				{
-					copyTextWithOffset(-curDelta, -curDelta); // upper-left
-					copyTextWithOffset(curDelta, 0); // upper-middle
-					copyTextWithOffset(curDelta, 0); // upper-right
-					copyTextWithOffset(0, curDelta); // middle-right
-					copyTextWithOffset(0, curDelta); // lower-right
-					copyTextWithOffset(-curDelta, 0); // lower-middle
-					copyTextWithOffset(-curDelta, 0); // lower-left
-					copyTextWithOffset(0, -curDelta); // lower-left
+					_matrix.translate(-curDelta, -curDelta); // upper-left
+					drawTextFieldTo(graphic);
+					_matrix.translate(curDelta, 0); // upper-middle
+					drawTextFieldTo(graphic);
+					_matrix.translate(curDelta, 0); // upper-right
+					drawTextFieldTo(graphic);
+					_matrix.translate(0, curDelta); // middle-right
+					drawTextFieldTo(graphic);
+					_matrix.translate(0, curDelta); // lower-right
+					drawTextFieldTo(graphic);
+					_matrix.translate(-curDelta, 0); // lower-middle
+					drawTextFieldTo(graphic);
+					_matrix.translate(-curDelta, 0); // lower-left
+					drawTextFieldTo(graphic);
+					_matrix.translate(0, -curDelta); // lower-left
+					drawTextFieldTo(graphic);
 
 					_matrix.translate(curDelta, 0); // return to center
 					curDelta += delta;
@@ -1069,12 +1081,21 @@ class FlxText extends FlxSprite
 				applyFormats(_formatAdjusted, true);
 
 				var curDelta:Float = delta;
+				var graphic:BitmapData = _hasBorderAlpha ? _borderPixels : graphic.bitmap;
 				for (i in 0...iterations)
 				{
-					copyTextWithOffset(-curDelta, -curDelta); // upper-left
-					copyTextWithOffset(curDelta * 2, 0); // upper-right
-					copyTextWithOffset(0, curDelta * 2); // lower-right
-					copyTextWithOffset(-curDelta * 2, 0); // lower-left
+					_matrix.translate(-curDelta, -curDelta);
+					drawTextFieldTo(graphic);
+					_matrix.translate(curDelta * 2, 0);
+					drawTextFieldTo(graphic);
+					_matrix.translate(0, curDelta * 2);
+					drawTextFieldTo(graphic);
+					_matrix.translate(-curDelta * 2, 0);
+					drawTextFieldTo(graphic);
+					// copyTextWithOffset(-curDelta, -curDelta); // upper-left
+					// copyTextWithOffset(curDelta * 2, 0); // upper-right
+					// copyTextWithOffset(0, curDelta * 2); // lower-right
+					// copyTextWithOffset(-curDelta * 2, 0); // lower-left
 
 					_matrix.translate(curDelta, -curDelta); // return to center
 					curDelta += delta;

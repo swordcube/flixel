@@ -329,8 +329,8 @@ class FlxRect implements IFlxPooled
 
 	public inline function offset(dx:Float, dy:Float):FlxRect
 	{
-		x += dx;
-		y += dy;
+		x = x + dx;
+		y = y + dy;
 		return this;
 	}
 

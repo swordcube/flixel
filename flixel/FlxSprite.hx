@@ -478,6 +478,7 @@ class FlxSprite extends FlxObject
 		frames = null;
 		graphic = null;
 		_frame = FlxDestroyUtil.destroy(_frame);
+		isFrameNull = true;
 		_frameGraphic = FlxDestroyUtil.destroy(_frameGraphic);
 
 		shader = null;
@@ -841,6 +842,8 @@ class FlxSprite extends FlxObject
 			loadGraphic("flixel/images/logo/default.png");
 	}
 
+	var isFrameNull(default, null):Bool = true;
+
 	/**
 	 * Called by game loop, updates then blits or renders current frame of animation to the screen.
 	 */
@@ -860,7 +863,8 @@ class FlxSprite extends FlxObject
 			return;
 		}
 
-		checkEmptyFrame();
+		if (isFrameNull)
+			checkEmptyFrame();
 
 		if (alpha == 0 || _frame.type == FlxFrameType.EMPTY)
 			return;
@@ -1253,7 +1257,8 @@ class FlxSprite extends FlxObject
 	@:noCompletion
 	function calcFrame(force = false):Void
 	{
-		checkEmptyFrame();
+		if (isFrameNull)
+			checkEmptyFrame();
 
 		if (FlxG.renderTile && !force)
 			return;
@@ -1300,6 +1305,7 @@ class FlxSprite extends FlxObject
 			_frameGraphic = FlxDestroyUtil.destroy(_frameGraphic);
 			_frameGraphic = FlxGraphic.fromBitmapData(framePixels, false, null, false);
 			_frame = _frameGraphic.imageFrame.frame.copyTo(_frame);
+			isFrameNull = false;
 		}
 
 		dirty = false;
@@ -1535,6 +1541,8 @@ class FlxSprite extends FlxObject
 		{
 			_frame = frame.copyTo(_frame);
 		}
+
+		isFrameNull = false;
 
 		return frame;
 	}

@@ -69,7 +69,7 @@ import openfl.geom.Point;
  * Otherwise, the remainging points will become garbage, adding to the
  * heap, potentially triggering a garbage collection when you don't want.
  */
-@:forward abstract FlxPoint(FlxBasePoint) to FlxBasePoint from FlxBasePoint 
+@:forward abstract FlxPoint(FlxBasePoint) to FlxBasePoint from FlxBasePoint
 {
 	public static inline var EPSILON:Float = 0.0000001;
 	public static inline var EPSILON_SQUARED:Float = EPSILON * EPSILON;
@@ -142,7 +142,6 @@ import openfl.geom.Point;
 		return result;
 	}
 
-	
 	/**
 	 * Operator that divides a point by float, returning a new point.
 	 */
@@ -185,7 +184,6 @@ import openfl.geom.Point;
 		return a.scale(b);
 	}
 
-	
 	/**
 	 * Operator that adds two points, returning a new point.
 	 */
@@ -324,8 +322,8 @@ import openfl.geom.Point;
 	 */
 	public inline function add(x:Float = 0, y:Float = 0):FlxPoint
 	{
-		this.x += x;
-		this.y += y;
+		this.x = this.x + x;
+		this.y = this.y + y;
 		return this;
 	}
 
@@ -351,8 +349,8 @@ import openfl.geom.Point;
 	 */
 	public inline function subtract(x:Float = 0, y:Float = 0):FlxPoint
 	{
-		this.x -= x;
-		this.y -= y;
+		this.x = this.x - x;
+		this.y = this.y - y;
 		return this;
 	}
 
@@ -381,8 +379,8 @@ import openfl.geom.Point;
 		if (y == null)
 			y = x;
 
-		this.x *= x;
-		this.y *= y;
+		this.x = this.x * x;
+		this.y = this.y * y;
 		return this;
 	}
 
@@ -497,8 +495,8 @@ import openfl.geom.Point;
 	 */
 	public inline function addToFlash(p:Point):Point
 	{
-		p.x += x;
-		p.y += y;
+		p.x = p.x + x;
+		p.y = p.y + y;
 
 		return p;
 	}
@@ -511,8 +509,8 @@ import openfl.geom.Point;
 	 */
 	public inline function subtractFromFlash(p:Point):Point
 	{
-		p.x -= x;
-		p.y -= y;
+		p.x = p.x + x;
+		p.y = p.y + y;
 
 		return p;
 	}
@@ -597,7 +595,7 @@ import openfl.geom.Point;
 	public function pivotRadians(pivot:FlxPoint, radians:Float):FlxPoint
 	{
 		_point1.copyFrom(this).subtractPoint(pivot);
-		_point1.radians += radians;
+		_point1.radians = _point1.radians + radians;
 		set(_point1.x + pivot.x, _point1.y + pivot.y);
 		pivot.putWeak();
 		return this;
@@ -1000,8 +998,8 @@ import openfl.geom.Point;
 	 */
 	public inline function negate():FlxPoint
 	{
-		x *= -1;
-		y *= -1;
+		x = -x;
+		y = -y;
 		return this;
 	}
 
@@ -1572,7 +1570,6 @@ class FlxBasePoint implements IFlxPooled
 		return y = Value;
 	}
 }
-
 
 /**
  * A FlxPoint that calls a function when set_x(), set_y() or set() is called. Used in FlxSpriteGroup.

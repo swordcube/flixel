@@ -199,7 +199,7 @@ class FlxBasic implements IFlxDestroyable
 /**
  * Types of flixel objects - mainly for collisions.
  */
-enum abstract FlxType(ByteInt)
+enum abstract FlxType(ByteUInt)
 {
 	var NONE = 0;
 	var OBJECT = 1;

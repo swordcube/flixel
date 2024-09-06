@@ -1,5 +1,6 @@
 package flixel.tweens;
 
+import flixel.FlxTypes;
 import flixel.tweens.misc.ShakeTween;
 import flixel.util.FlxAxes;
 import flixel.FlxG;
@@ -23,7 +24,7 @@ import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 import flixel.math.FlxPoint;
 
 /** @since 4.5.0 **/
-enum abstract FlxTweenType(Int) from Int to Int
+enum abstract FlxTweenType(ByteUInt) from ByteUInt to ByteUInt
 {
 	/**
 	 * Persistent Tween type, will stop when it finishes.

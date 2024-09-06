@@ -669,8 +669,6 @@ class FlxCamera extends FlxBasic
 		#if FLX_RENDER_TRIANGLE
 		return startTrianglesBatch(graphic, smooth, colored, blend);
 		#else
-		var itemToReturn = null;
-
 		if (_currentDrawItem != null
 			&& _currentDrawItem.type == FlxDrawItemType.TILES
 			&& _headTiles.graphics == graphic
@@ -682,6 +680,8 @@ class FlxCamera extends FlxBasic
 		{
 			return _headTiles;
 		}
+
+		var itemToReturn = null;
 
 		if (_storageTilesHead != null)
 		{

@@ -1569,7 +1569,7 @@ class FlxCamera extends FlxBasic
 			Style = LOCKON;
 
 		if (Lerp == null)
-			Lerp = 60 / FlxG.updateFramerate;
+			Lerp = 1;
 
 		style = Style;
 		target = Target;
@@ -2026,7 +2026,7 @@ class FlxCamera extends FlxBasic
 
 	function set_followLerp(Value:Float):Float
 	{
-		return followLerp = FlxMath.bound(Value, 0, 60 / FlxG.updateFramerate);
+		return followLerp = FlxMath.bound(Value, 0.0, 1.0);
 	}
 
 	function set_width(Value:Int):Int
